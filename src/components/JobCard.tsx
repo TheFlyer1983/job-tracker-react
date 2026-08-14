@@ -25,6 +25,11 @@ export default function JobCard({ job }: JobCardProps) {
         <div className="flex justify-between text-sm text-gray-500"><span className="font-bold">URL:</span><a href={job.url} className="underline">{job.url}</a></div>
         <hr />
         <div className="flex justify-between gap-x-4 text-sm text-gray-500"><span className="font-bold">Notes:</span><span>{job.notes}</span></div>
+        <hr />
+        <div className="flex justify-around gap-x-4 text-sm text-gray-500 my-4">
+          <button className="p-2 rounded-md border border-gray-500">View Job</button>
+          <button className="p-2 rounded-md border border-gray-500">Edit Job</button>
+        </div>
       </div>
     </>
   );

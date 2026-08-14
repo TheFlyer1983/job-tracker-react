@@ -1,10 +1,12 @@
-import type { Job } from "../constants/jobs";
+import type { JobStatus } from "../constants/jobs";
+import { jobStatuses } from "../constants/jobs";
 
 type SearchBoxProps = {
   searchText: string;
   setSearchText: (searchText: string) => void;
-  statusFilter: Job["status"] | "";
-  setStatusFilter: (statusFilter: Job["status"] | "") => void;
+  statusFilter: JobStatus | "";
+  setStatusFilter: (statusFilter: JobStatus | "") => void;
+  handleToggleModal: () => void;
 };
 
 export default function SearchBox({
@@ -12,27 +14,38 @@ export default function SearchBox({
   setSearchText,
   statusFilter,
   setStatusFilter,
+  handleToggleModal,
 }: SearchBoxProps) {
   return (
-    <div className="flex flex-row gap-4">
-      <input
-        type="text"
-        placeholder="Search Jobs"
-        className="p-2 mb-4 rounded-md border border-gray-300"
-        value={searchText}
-        onChange={(e) => setSearchText(e.target.value)}
-      />
-      <select
-        value={statusFilter}
-        className="p-2 mb-4 rounded-md border border-gray-300"
-        onChange={(e) => setStatusFilter(e.target.value as Job["status"] | "")}
-      >
-        <option value="">All</option>
-        <option value="Applied">Applied</option>
-        <option value="Interview">Interview</option>
-        <option value="Offer">Offer</option>
-        <option value="Rejected">Rejected</option>
-      </select>
+    <div className="flex flex-row gap-4 justify-between">
+      <div className="flex flex-row gap-4">
+        <input
+          type="text"
+          placeholder="Search Jobs"
+          className="p-2 mb-4 rounded-md border border-gray-300"
+          value={searchText}
+          onChange={(e) => setSearchText(e.target.value)}
+        />
+        <select
+          value={statusFilter}
+          className="p-2 mb-4 rounded-md border border-gray-300"
+          onChange={(e) => setStatusFilter(e.target.value as JobStatus | "")}
+        >
+          <option value="">All</option>
+          {jobStatuses.map((status) => {
+            return (
+              <option value={status} key={status}>
+                {status}
+              </option>
+            );
+          })}
+        </select>
+      </div>
+      <div className="flex flex-row gap-4">
+        <button className="p-2 mb-4 rounded-md border border-gray-300" onClick={handleToggleModal}>
+          Add Job
+        </button>
+      </div>
     </div>
   );
 }

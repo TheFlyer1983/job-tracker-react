@@ -1,10 +1,14 @@
+export const jobStatuses = ['Saved', 'Applied', 'Interview', 'Offer', 'Rejected'] as const;
+
+export type JobStatus = (typeof jobStatuses)[number]
+
 export type Job = {
   id: number
   company: string
   title: string
   location: string
   salary: string
-  status: 'Saved' | 'Applied' | 'Interview' | 'Offer' | 'Rejected'
+  status: JobStatus | ''
   url: string
   notes: string
 }
