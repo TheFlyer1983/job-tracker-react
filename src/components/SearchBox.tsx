@@ -1,5 +1,6 @@
 import type { JobStatus } from "../constants/jobs";
 import { jobStatuses } from "../constants/jobs";
+import SelectDropdown from "./inputs/SelectDropdown";
 
 type SearchBoxProps = {
   searchText: string;
@@ -26,20 +27,7 @@ export default function SearchBox({
           value={searchText}
           onChange={(e) => setSearchText(e.target.value)}
         />
-        <select
-          value={statusFilter}
-          className="p-2 mb-4 rounded-md border border-gray-300"
-          onChange={(e) => setStatusFilter(e.target.value as JobStatus | "")}
-        >
-          <option value="">All</option>
-          {jobStatuses.map((status) => {
-            return (
-              <option value={status} key={status}>
-                {status}
-              </option>
-            );
-          })}
-        </select>
+        <SelectDropdown options={Array.from(jobStatuses)} value={statusFilter} setValue={(value) => setStatusFilter(value as JobStatus | "")} />
       </div>
       <div className="flex flex-row gap-4">
         <button className="p-2 mb-4 rounded-md border border-gray-300" onClick={handleToggleModal}>

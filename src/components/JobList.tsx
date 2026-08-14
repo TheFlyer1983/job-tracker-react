@@ -1,31 +1,28 @@
 import type { Job } from "../constants/jobs";
-import JobCard from "./JobCard";
+import JobColumn from "./JobColumn";
 
 type JobListProps = {
   jobs: Job[];
 };
 
 export default function JobList({ jobs }: JobListProps) {
-  const columns: Record<string, React.ReactNode[]> = {};
+  const columns: Record<string, Job[]> = {};
 
   for (const job of jobs) {
     if (job.status in columns) {
-      columns[job.status].push(<JobCard job={job} key={job.id} />);
+      columns[job.status].push(job);
     } else {
-      columns[job.status] = [<JobCard job={job} key={job.id} />];
+      columns[job.status] = [job];
     }
   }
 
   return (
     <>
       <div className="flex flex-row gap-4 max-w-full">
-        {Object.keys(columns).map((column) => {
+        {Object.entries(columns).map(([status, jobs]) => {
           return (
-            <div className="flex flex-col gap-4 bg-white p-4 rounded" key={column}>
-              <h2 className="text-2xl font-bold text-black text-center">{column}</h2>
-              {columns[column]}
-            </div>
-          )
+            <JobColumn status={status} jobs={jobs} key={status} />
+          );
         })}
       </div>
     </>

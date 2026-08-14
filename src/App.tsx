@@ -4,7 +4,7 @@ import { useState } from "react";
 import JobList from "./components/JobList";
 import AppHeader from "./components/AppHeader";
 import SearchBox from "./components/SearchBox";
-import AddJob from "./components/AddJob";
+import AddJobModal from "./components/AddJobModal";
 
 export default function App() {
   const [searchText, setSearchText] = useState("");
@@ -21,7 +21,7 @@ export default function App() {
     console.log('Add job', job);
     setIsModalOpen(false)
 
-    setAllJobs([...allJobs, { id: allJobs.length + 1, ...job, status: 'Saved' } as Job])
+    setAllJobs([...allJobs, { id: allJobs.length + 1, ...job } as Job])
   }
 
   const filteredJobs = allJobs
@@ -40,7 +40,7 @@ export default function App() {
       />
       <JobList jobs={filteredJobs} />
 
-      { isModalOpen && <AddJob handleAddJob={handleAddJob} handleToggleModal={handleToggleModal} />}
+      { isModalOpen && <AddJobModal handleAddJob={handleAddJob} handleToggleModal={handleToggleModal} />}
     </>
   );
 }

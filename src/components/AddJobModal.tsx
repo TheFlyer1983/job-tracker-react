@@ -1,5 +1,8 @@
 import type { Job } from "../constants/jobs";
 import { useState } from "react";
+import SelectDropdown from "./inputs/SelectDropdown";
+import { jobStatuses } from "../constants/jobs";
+import type { JobStatus } from "../constants/jobs";
 
 type AddJobProps = {
   handleAddJob: (job: Partial<Job>) => void;
@@ -7,17 +10,17 @@ type AddJobProps = {
 };
 
 export default function AddJob({ handleAddJob, handleToggleModal }: AddJobProps) {
-  const [job, setJob] = useState({
+  const [job, setJob] = useState<Omit<Job, 'id'>>({
     company: "",
     title: "",
     location: "",
     salary: "",
+    status: "",
     url: "",
     notes: "",
   });
-  const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
-
     handleAddJob(job);
   };
   return (
@@ -25,7 +28,10 @@ export default function AddJob({ handleAddJob, handleToggleModal }: AddJobProps)
       className="fixed inset-0 z-100 flex items-center justify-center bg-gray-900/50"
       onClick={handleToggleModal}
     >
-      <div className="flex flex-col items-center justify-center bg-white p-4 rounded-md w-lg" onClick={(e) => e.stopPropagation()}>
+      <div
+        className="flex flex-col items-center justify-center bg-white p-4 rounded-md w-lg"
+        onClick={(e) => e.stopPropagation()}
+      >
         <h1 className="text-2xl font-bold">Add Job</h1>
         <form onSubmit={handleSubmit}>
           <div className="flex flex-col gap-2">
@@ -94,16 +100,18 @@ export default function AddJob({ handleAddJob, handleToggleModal }: AddJobProps)
                 onChange={(e) => setJob({ ...job, notes: e.target.value })}
               />
             </div>
-
-            {/* <div className="flex flex-row items-center gap-2">
-            <label htmlFor="status">Status</label>
-            <select id="status" name="status" className="border border-gray-300 rounded-md p-2">
-          </div> */}
+            <div className="flex flex-row items-center justify-between gap-2">
+              <label htmlFor="status">Status</label>
+              <SelectDropdown
+                options={Array.from(jobStatuses)}
+                value={job.status}
+                setValue={(value) => setJob({ ...job, status: value as JobStatus })}
+              />
+            </div>
           </div>
           <button
             type="submit"
             className="bg-blue-500 text-white rounded-md p-2"
-            onClick={(e) => handleSubmit(e)}
           >
             Add Job
           </button>
