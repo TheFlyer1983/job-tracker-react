@@ -34,7 +34,6 @@ export default function App() {
   };
 
   const saveJob = (job: Job) => {
-    console.log("saveJob", job);
     setModalName(null);
 
     setAllJobs((currentJobs) => currentJobs.map((j) => (j.id === job.id ? job : j)));
