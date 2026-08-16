@@ -1,4 +1,5 @@
 import type { Job } from "../constants/jobs";
+import { NavLink } from "react-router";
 
 type JobCardProps = {
   job: Job;
@@ -29,7 +30,7 @@ export default function JobCard({ job, editJob, deleteJob  }: JobCardProps) {
         <div className="flex justify-between gap-x-4 text-sm text-gray-500"><span className="font-bold">Notes:</span><span>{job.notes}</span></div>
         <hr />
         <div className="flex justify-around gap-x-4 text-sm text-gray-500 my-4">
-          <button className="p-2 rounded-md border border-gray-500">View Job</button>
+          <NavLink to={`/jobs/${job.id}`} className="p-2 rounded-md border border-gray-500">View Job</NavLink>
           <button className="p-2 rounded-md border border-gray-500" onClick={() => editJob(job)}>Edit Job</button>
           <button className="p-2 rounded-md border border-gray-500" onClick={() => deleteJob(job)}>Delete Job</button>
         </div>
