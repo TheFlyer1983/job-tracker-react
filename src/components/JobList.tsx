@@ -3,9 +3,11 @@ import JobColumn from "./JobColumn";
 
 type JobListProps = {
   jobs: Job[];
+  editJob: (job: Job) => void;
+  deleteJob: (job: Job) => void;
 };
 
-export default function JobList({ jobs }: JobListProps) {
+export default function JobList({ jobs, editJob, deleteJob }: JobListProps) {
   const columns: Record<string, Job[]> = {};
 
   for (const job of jobs) {
@@ -18,10 +20,10 @@ export default function JobList({ jobs }: JobListProps) {
 
   return (
     <>
-      <div className="flex flex-row gap-4 max-w-full">
+      <div className="flex flex-row gap-4 w-max">
         {Object.entries(columns).map(([status, jobs]) => {
           return (
-            <JobColumn status={status} jobs={jobs} key={status} />
+            <JobColumn status={status} jobs={jobs} key={status} editJob={editJob} deleteJob={deleteJob} />
           );
         })}
       </div>

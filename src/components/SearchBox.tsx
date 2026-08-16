@@ -7,7 +7,7 @@ type SearchBoxProps = {
   setSearchText: (searchText: string) => void;
   statusFilter: JobStatus | "";
   setStatusFilter: (statusFilter: JobStatus | "") => void;
-  handleToggleModal: () => void;
+  handleToggleModal: (string: string) => void;
 };
 
 export default function SearchBox({
@@ -30,7 +30,7 @@ export default function SearchBox({
         <SelectDropdown options={Array.from(jobStatuses)} value={statusFilter} setValue={(value) => setStatusFilter(value as JobStatus | "")} />
       </div>
       <div className="flex flex-row gap-4">
-        <button className="p-2 mb-4 rounded-md border border-gray-300" onClick={handleToggleModal}>
+        <button className="p-2 mb-4 rounded-md border border-gray-300" onClick={() => handleToggleModal('addJob')}>
           Add Job
         </button>
       </div>

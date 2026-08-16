@@ -4,25 +4,24 @@ import SelectDropdown from "./inputs/SelectDropdown";
 import { jobStatuses } from "../constants/jobs";
 import type { JobStatus } from "../constants/jobs";
 
-type AddJobProps = {
-  handleAddJob: (job: Partial<Job>) => void;
+type EditJobProps = {
+  editableJob: Job;
+  setEditableJob: (job: Job) => void;
+  saveJob: (job: Job) => void;
   handleToggleModal: (modalName?: string | null) => void;
 };
 
-export default function AddJob({ handleAddJob, handleToggleModal }: AddJobProps) {
-  const [job, setJob] = useState<Omit<Job, "id">>({
-    company: "",
-    title: "",
-    location: "",
-    salary: "",
-    status: "",
-    url: "",
-    notes: "",
-  });
+export default function EditJobModal({
+  editableJob,
+  setEditableJob,
+  saveJob,
+  handleToggleModal,
+}: EditJobProps) {
   const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
-    handleAddJob(job);
+    saveJob(editableJob);
   };
+
   return (
     <div
       className="fixed inset-0 z-100 flex items-center justify-center bg-gray-900/50"
@@ -32,7 +31,7 @@ export default function AddJob({ handleAddJob, handleToggleModal }: AddJobProps)
         className="flex flex-col items-center justify-center bg-white p-4 rounded-md w-lg"
         onClick={(e) => e.stopPropagation()}
       >
-        <h1 className="text-2xl font-bold">Add Job</h1>
+        <h1 className="text-2xl font-bold">Edit Job</h1>
         <form onSubmit={handleSubmit}>
           <div className="flex flex-col gap-2">
             <div className="flex flex-row items-center justify-between gap-2">
@@ -42,8 +41,8 @@ export default function AddJob({ handleAddJob, handleToggleModal }: AddJobProps)
                 id="title"
                 name="title"
                 className="border border-gray-300 rounded-md p-2"
-                value={job.title}
-                onChange={(e) => setJob({ ...job, title: e.target.value })}
+                value={editableJob.title}
+                onChange={(e) => setEditableJob({ ...editableJob, title: e.target.value })}
               />
             </div>
             <div className="flex flex-row items-center justify-between gap-2">
@@ -53,8 +52,8 @@ export default function AddJob({ handleAddJob, handleToggleModal }: AddJobProps)
                 id="company"
                 name="company"
                 className="border border-gray-300 rounded-md p-2"
-                value={job.company}
-                onChange={(e) => setJob({ ...job, company: e.target.value })}
+                value={editableJob.company}
+                onChange={(e) => setEditableJob({ ...editableJob, company: e.target.value })}
               />
             </div>
             <div className="flex flex-row items-center justify-between gap-2">
@@ -64,8 +63,8 @@ export default function AddJob({ handleAddJob, handleToggleModal }: AddJobProps)
                 id="location"
                 name="location"
                 className="border border-gray-300 rounded-md p-2"
-                value={job.location}
-                onChange={(e) => setJob({ ...job, location: e.target.value })}
+                value={editableJob.location}
+                onChange={(e) => setEditableJob({ ...editableJob, location: e.target.value })}
               />
             </div>
             <div className="flex flex-row items-center justify-between gap-2">
@@ -75,8 +74,8 @@ export default function AddJob({ handleAddJob, handleToggleModal }: AddJobProps)
                 id="salary"
                 name="salary"
                 className="border border-gray-300 rounded-md p-2"
-                value={job.salary}
-                onChange={(e) => setJob({ ...job, salary: e.target.value })}
+                value={editableJob.salary}
+                onChange={(e) => setEditableJob({ ...editableJob, salary: e.target.value })}
               />
             </div>
             <div className="flex flex-row items-center justify-between gap-2">
@@ -86,8 +85,8 @@ export default function AddJob({ handleAddJob, handleToggleModal }: AddJobProps)
                 id="url"
                 name="url"
                 className="border border-gray-300 rounded-md p-2"
-                value={job.url}
-                onChange={(e) => setJob({ ...job, url: e.target.value })}
+                value={editableJob.url}
+                onChange={(e) => setEditableJob({ ...editableJob, url: e.target.value })}
               />
             </div>
             <div className="flex flex-row items-center justify-between gap-2">
@@ -96,22 +95,22 @@ export default function AddJob({ handleAddJob, handleToggleModal }: AddJobProps)
                 id="description"
                 name="description"
                 className="border border-gray-300 rounded-md p-2"
-                value={job.notes}
-                onChange={(e) => setJob({ ...job, notes: e.target.value })}
+                value={editableJob.notes}
+                onChange={(e) => setEditableJob({ ...editableJob, notes: e.target.value })}
               />
             </div>
             <div className="flex flex-row items-center justify-between gap-2">
               <label htmlFor="status">Status</label>
               <SelectDropdown
                 options={Array.from(jobStatuses)}
-                value={job.status}
-                setValue={(value) => setJob({ ...job, status: value as JobStatus })}
+                value={editableJob.status}
+                setValue={(value) => setEditableJob({ ...editableJob, status: value as JobStatus })}
               />
             </div>
           </div>
           <div className="flex flex-row items-center justify-between gap-2">
             <button type="submit" className="bg-blue-500 text-white rounded-md p-2">
-              Add Job
+              Save Job
             </button>
             <button
               type="button"
