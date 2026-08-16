@@ -1,6 +1,6 @@
-import { jobs } from "./constants/jobs";
+import { initialJobs } from "./constants/jobs";
 import type { Job } from "./constants/jobs";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import JobList from "./components/JobList";
 import AppHeader from "./components/AppHeader";
 import SearchBox from "./components/SearchBox";
@@ -11,15 +11,23 @@ export default function App() {
   const [searchText, setSearchText] = useState("");
   const [statusFilter, setStatusFilter] = useState<Job["status"] | "">("");
   const [modalName, setModalName] = useState<string | null>(null);
-  const [allJobs, setAllJobs] = useState(jobs);
+  const [allJobs, setAllJobs] = useState<Job[]>(() => {
+    const savedJobs = localStorage.getItem('jobs');
+    
+    return savedJobs ? JSON.parse(savedJobs) : initialJobs
+  });
   const [editableJob, setEditableJob] = useState<Job | null>(null);
+
+  useEffect(() => {
+    localStorage.setItem('jobs', JSON.stringify(allJobs))
+  }, [allJobs])
 
   const handleToggleModal = (modalName: string | null = null) => {
     setModalName(modalName);
   };
 
   const handleAddJob = (job: Partial<Job>) => {
-    setModalName("addJob");
+    setModalName(null);
 
     setAllJobs([...allJobs, { id: allJobs.length + 1, ...job } as Job]);
   };

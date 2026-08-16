@@ -1,8 +1,8 @@
-import type { Job } from "../constants/jobs";
+import type { Job, JobStatus } from "../constants/jobs";
 import JobCard from "./JobCard";
 
 type JobColumnProps = {
-  status: string;
+  status: JobStatus;
   jobs: Job[];
   editJob: (job: Job) => void;
   deleteJob: (job: Job) => void;

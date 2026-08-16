@@ -13,7 +13,7 @@ export type Job = {
   notes: string
 }
 
-export const jobs: Job[] = [
+export const initialJobs: Job[] = [
   {
     id: 1,
     company: 'Autotrader',
