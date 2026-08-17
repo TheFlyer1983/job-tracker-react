@@ -1,5 +1,5 @@
 import type { Job } from "../constants/jobs";
-import { useState } from "react";
+import { useJobs } from "../hooks/useJobs";
 import SelectDropdown from "./inputs/SelectDropdown";
 import { jobStatuses } from "../constants/jobs";
 import type { JobStatus } from "../constants/jobs";
@@ -7,19 +7,20 @@ import type { JobStatus } from "../constants/jobs";
 type EditJobProps = {
   editableJob: Job;
   setEditableJob: (job: Job) => void;
-  saveJob: (job: Job) => void;
   handleToggleModal: (modalName?: string | null) => void;
 };
 
 export default function EditJobModal({
   editableJob,
   setEditableJob,
-  saveJob,
   handleToggleModal,
 }: EditJobProps) {
+  const { updateJob } = useJobs();
+
   const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
-    saveJob(editableJob);
+    updateJob(editableJob);
+    handleToggleModal();
   };
 
   return (

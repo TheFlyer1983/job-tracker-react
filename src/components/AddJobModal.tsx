@@ -3,13 +3,14 @@ import { useState } from "react";
 import SelectDropdown from "./inputs/SelectDropdown";
 import { jobStatuses } from "../constants/jobs";
 import type { JobStatus } from "../constants/jobs";
+import { useJobs } from "../hooks/useJobs";
 
 type AddJobProps = {
-  handleAddJob: (job: Partial<Job>) => void;
   handleToggleModal: (modalName?: string | null) => void;
 };
 
-export default function AddJob({ handleAddJob, handleToggleModal }: AddJobProps) {
+export default function AddJob({ handleToggleModal }: AddJobProps) {
+  const { addJob } = useJobs();
   const [job, setJob] = useState<Omit<Job, "id">>({
     company: "",
     title: "",
@@ -21,7 +22,8 @@ export default function AddJob({ handleAddJob, handleToggleModal }: AddJobProps)
   });
   const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
-    handleAddJob(job);
+    addJob(job);
+    handleToggleModal();
   };
   return (
     <div

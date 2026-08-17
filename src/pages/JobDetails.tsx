@@ -2,17 +2,25 @@ import { useParams, NavLink } from "react-router";
 import { useEffect, useState } from "react";
 import type { Job } from "../constants/jobs";
 import AppHeader from "../components/AppHeader";
+import { getJob } from "../api/jobs";
 
 export default function JobDetails() {
   const { id } = useParams();
   const [job, setJob] = useState<Job | null>(null);
 
   useEffect(() => {
-    const jobs = JSON.parse(localStorage.getItem("jobs") ?? "[]");
+    if (!id) return;
 
-    const foundJob = jobs.find((job: Job) => job.id.toString() === id);
+    async function loadJob() {
+      try {
+        const job = await getJob(Number(id));
+        setJob(job);
+      } catch {
+        console.log('Failed to load job');
+      }
+    }
 
-    setJob(foundJob ?? null);
+    loadJob();
   }, [id]);
 
   return (

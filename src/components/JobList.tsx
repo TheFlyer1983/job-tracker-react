@@ -5,10 +5,9 @@ import JobColumn from "./JobColumn";
 type JobListProps = {
   jobs: Job[];
   editJob: (job: Job) => void;
-  deleteJob: (job: Job) => void;
 };
 
-export default function JobList({ jobs, editJob, deleteJob }: JobListProps) {
+export default function JobList({ jobs, editJob }: JobListProps) {
   const columns: Record<string, Job[]> = {};
 
   for (const job of jobs) {
@@ -28,7 +27,6 @@ export default function JobList({ jobs, editJob, deleteJob }: JobListProps) {
             jobs={columns[status] ?? []}
             key={status}
             editJob={editJob}
-            deleteJob={deleteJob}
           />
         ))}
       </div>

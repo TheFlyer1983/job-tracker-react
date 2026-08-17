@@ -1,14 +1,16 @@
 import type { Job } from "../constants/jobs";
 import { NavLink } from "react-router";
+import { useJobs } from "../hooks/useJobs";
 
 type JobCardProps = {
   job: Job;
   editJob: (job: Job) => void;
-  deleteJob: (job: Job) => void;
 };
 
-export default function JobCard({ job, editJob, deleteJob  }: JobCardProps) {
+export default function JobCard({ job, editJob  }: JobCardProps) {
   const { status } = job;
+
+  const { deleteJob } = useJobs();
   
   const statusBgColour = status === 'Applied' ? 'bg-blue-200' : status === 'Interview' ? 'bg-green-200' : status === 'Offer' ? 'bg-yellow-200' : status === 'Rejected' ? 'bg-red-200' : 'bg-gray-200';
 
@@ -32,7 +34,7 @@ export default function JobCard({ job, editJob, deleteJob  }: JobCardProps) {
         <div className="flex justify-around gap-x-4 text-sm text-gray-500 my-4">
           <NavLink to={`/jobs/${job.id}`} className="p-2 rounded-md border border-gray-500">View Job</NavLink>
           <button className="p-2 rounded-md border border-gray-500" onClick={() => editJob(job)}>Edit Job</button>
-          <button className="p-2 rounded-md border border-gray-500" onClick={() => deleteJob(job)}>Delete Job</button>
+          <button className="p-2 rounded-md border border-gray-500" onClick={() => deleteJob(job.id)}>Delete Job</button>
         </div>
       </div>
     </>
