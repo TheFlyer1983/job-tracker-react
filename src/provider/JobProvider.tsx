@@ -1,7 +1,12 @@
 import { useState, useEffect } from 'react';
 import { JobContext } from '../contexts/JobContext';
 import type { Job } from '../constants/jobs';
-import { getJobs, addJob as addJobApi, deleteJob as deleteJobApi, updateJob as updateJobApi } from '../api/jobs';
+import {
+  getJobs,
+  addJob as addJobApi,
+  deleteJob as deleteJobApi,
+  updateJob as updateJobApi
+} from '../api/jobs';
 
 export function JobProvider({ children }: { children: React.ReactNode }) {
   const [jobs, setJobs] = useState<Job[]>([]);
@@ -24,24 +29,36 @@ export function JobProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   async function addJob(job: Omit<Job, 'id'>) {
-    const newJob = { ...job, id: crypto.randomUUID() };
+    try {
+      const newJob = { ...job, id: crypto.randomUUID() };
 
-    const response = await addJobApi(newJob);
-    setJobs((currentJobs) => [...currentJobs, response]);
+      const response = await addJobApi(newJob);
+      setJobs((currentJobs) => [...currentJobs, response]);
+    } catch {
+      setError('Failed to add job');
+    }
   }
 
   async function updateJob(updatedJob: Job) {
+    try {
     await updateJobApi(updatedJob);
-    
+
     setJobs((currentJobs) =>
-      currentJobs.map((job) => (job.id === updatedJob.id ? {...job, ...updatedJob} : job))
-    );
+        currentJobs.map((job) => (job.id === updatedJob.id ? { ...job, ...updatedJob } : job))
+      );
+    } catch {
+      setError('Failed to update job');
+    }
   }
 
   async function deleteJob(id: Job['id']) {
+    try {
     await deleteJobApi(id);
 
     setJobs((currentJobs) => currentJobs.filter((job) => job.id !== id));
+    } catch {
+      setError('Failed to delete job');
+    }
   }
 
   return (
