@@ -3,7 +3,7 @@ import type { Job } from '../constants/jobs';
 
 type JobContextType = {
   jobs: Job[];
-  addJob: (job: Partial<Job>) => void;
+  addJob: (job: Omit<Job, 'id'>) => void;
   updateJob: (job: Job) => void;
   deleteJob: (id: Job['id']) => void;
   error: string | null;
