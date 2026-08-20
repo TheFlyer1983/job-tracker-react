@@ -1,5 +1,5 @@
-import type { Job, JobStatus } from "../constants/jobs";
-import JobCard from "./JobCard";
+import type { Job, JobStatus } from '../constants/jobs';
+import JobCard from './JobCard';
 
 type JobColumnProps = {
   status: JobStatus;
@@ -9,8 +9,11 @@ type JobColumnProps = {
 
 export default function JobColumn({ status, jobs, editJob }: JobColumnProps) {
   return (
-    <div className="flex flex-col gap-4 bg-white p-4 rounded lg:w-96 max-md:w-72 shrink-0" key={status}>
-      <h2 className="text-2xl font-bold text-black text-center">{status}</h2>
+    <div
+      className="flex shrink-0 flex-col gap-4 rounded bg-white p-4 max-md:w-72 lg:w-96"
+      key={status}
+    >
+      <h2 className="text-center text-2xl font-bold text-black">{status}</h2>
       {jobs.map((job) => (
         <JobCard job={job} key={job.id} editJob={editJob} />
       ))}

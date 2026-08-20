@@ -1,9 +1,9 @@
-import type { Job } from "../constants/jobs";
-import { useState } from "react";
-import SelectDropdown from "./inputs/SelectDropdown";
-import { jobStatuses } from "../constants/jobs";
-import type { JobStatus } from "../constants/jobs";
-import { useJobs } from "../hooks/useJobs";
+import type { Job } from '../constants/jobs';
+import { useState } from 'react';
+import SelectDropdown from './inputs/SelectDropdown';
+import { jobStatuses } from '../constants/jobs';
+import type { JobStatus } from '../constants/jobs';
+import { useJobs } from '../hooks/useJobs';
 
 type AddJobProps = {
   handleToggleModal: (modalName?: string | null) => void;
@@ -11,14 +11,14 @@ type AddJobProps = {
 
 export default function AddJob({ handleToggleModal }: AddJobProps) {
   const { addJob } = useJobs();
-  const [job, setJob] = useState<Omit<Job, "id">>({
-    company: "",
-    title: "",
-    location: "",
-    salary: "",
-    status: "",
-    url: "",
-    notes: "",
+  const [job, setJob] = useState<Omit<Job, 'id'>>({
+    company: '',
+    title: '',
+    location: '',
+    salary: '',
+    status: '',
+    url: '',
+    notes: ''
   });
   const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -31,7 +31,7 @@ export default function AddJob({ handleToggleModal }: AddJobProps) {
       onClick={() => handleToggleModal()}
     >
       <div
-        className="flex flex-col items-center justify-center bg-white p-4 rounded-md w-lg"
+        className="flex w-lg flex-col items-center justify-center rounded-md bg-white p-4"
         onClick={(e) => e.stopPropagation()}
       >
         <h1 className="text-2xl font-bold">Add Job</h1>
@@ -43,7 +43,7 @@ export default function AddJob({ handleToggleModal }: AddJobProps) {
                 type="text"
                 id="title"
                 name="title"
-                className="border border-gray-300 rounded-md p-2"
+                className="rounded-md border border-gray-300 p-2"
                 value={job.title}
                 onChange={(e) => setJob({ ...job, title: e.target.value })}
               />
@@ -54,7 +54,7 @@ export default function AddJob({ handleToggleModal }: AddJobProps) {
                 type="text"
                 id="company"
                 name="company"
-                className="border border-gray-300 rounded-md p-2"
+                className="rounded-md border border-gray-300 p-2"
                 value={job.company}
                 onChange={(e) => setJob({ ...job, company: e.target.value })}
               />
@@ -65,7 +65,7 @@ export default function AddJob({ handleToggleModal }: AddJobProps) {
                 type="text"
                 id="location"
                 name="location"
-                className="border border-gray-300 rounded-md p-2"
+                className="rounded-md border border-gray-300 p-2"
                 value={job.location}
                 onChange={(e) => setJob({ ...job, location: e.target.value })}
               />
@@ -76,7 +76,7 @@ export default function AddJob({ handleToggleModal }: AddJobProps) {
                 type="text"
                 id="salary"
                 name="salary"
-                className="border border-gray-300 rounded-md p-2"
+                className="rounded-md border border-gray-300 p-2"
                 value={job.salary}
                 onChange={(e) => setJob({ ...job, salary: e.target.value })}
               />
@@ -87,7 +87,7 @@ export default function AddJob({ handleToggleModal }: AddJobProps) {
                 type="url"
                 id="url"
                 name="url"
-                className="border border-gray-300 rounded-md p-2"
+                className="rounded-md border border-gray-300 p-2"
                 value={job.url}
                 onChange={(e) => setJob({ ...job, url: e.target.value })}
               />
@@ -97,7 +97,7 @@ export default function AddJob({ handleToggleModal }: AddJobProps) {
               <textarea
                 id="description"
                 name="description"
-                className="border border-gray-300 rounded-md p-2"
+                className="rounded-md border border-gray-300 p-2"
                 value={job.notes}
                 onChange={(e) => setJob({ ...job, notes: e.target.value })}
               />
@@ -112,12 +112,12 @@ export default function AddJob({ handleToggleModal }: AddJobProps) {
             </div>
           </div>
           <div className="flex flex-row items-center justify-between gap-2">
-            <button type="submit" className="bg-blue-500 text-white rounded-md p-2">
+            <button type="submit" className="rounded-md bg-blue-500 p-2 text-white">
               Add Job
             </button>
             <button
               type="button"
-              className="bg-red-500 text-white rounded-md p-2"
+              className="rounded-md bg-red-500 p-2 text-white"
               onClick={() => handleToggleModal()}
             >
               Cancel

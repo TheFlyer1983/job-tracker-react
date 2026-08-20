@@ -1,0 +1,12 @@
+{
+  "$schema": "./node_modules/oxfmt/configuration_schema.json",
+  "tabWidth": 2,
+  "useTabs": false,
+  "trailingComma": "none",
+  "singleQuote": true,
+  "typeAware": true,
+  "sortTailwindcss": {
+    "stylesConfig": "./src/index.css"
+  },
+  "ignorePatterns": [".nuxt/**", ".output/**", "dist/**", "coverage/**", "pnpm-lock.yaml"]
+}

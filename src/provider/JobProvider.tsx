@@ -1,7 +1,7 @@
-import { useState, useEffect } from "react";
-import { JobContext } from "../contexts/JobContext";
-import type { Job } from "../constants/jobs";
-import { getJobs } from "../api/jobs";
+import { useState, useEffect } from 'react';
+import { JobContext } from '../contexts/JobContext';
+import type { Job } from '../constants/jobs';
+import { getJobs } from '../api/jobs';
 
 export function JobProvider({ children }: { children: React.ReactNode }) {
   const [jobs, setJobs] = useState<Job[]>([]);
@@ -12,7 +12,7 @@ export function JobProvider({ children }: { children: React.ReactNode }) {
     async function loadJobs() {
       try {
         const jobs = await getJobs();
-        setJobs(jobs)
+        setJobs(jobs);
       } catch {
         setError('Failed to load jobs');
       } finally {
@@ -24,12 +24,12 @@ export function JobProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   function addJob(job: Partial<Job>) {
-    setJobs((currentJobs) => [...currentJobs, { id: currentJobs.length + 1, ...job } as Job]);
+    setJobs((currentJobs) => [...currentJobs, { id: crypto.randomUUID(), ...job } as Job]);
   }
 
   function updateJob(updatedJob: Job) {
     setJobs((currentJobs) =>
-      currentJobs.map((job) => (job.id === updatedJob.id ? updatedJob : job)),
+      currentJobs.map((job) => (job.id === updatedJob.id ? updatedJob : job))
     );
   }
 
@@ -45,7 +45,7 @@ export function JobProvider({ children }: { children: React.ReactNode }) {
         updateJob,
         deleteJob,
         error,
-        isLoading,
+        isLoading
       }}
     >
       {children}

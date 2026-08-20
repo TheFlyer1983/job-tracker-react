@@ -1,8 +1,8 @@
-import type { Job } from "../constants/jobs";
-import { useJobs } from "../hooks/useJobs";
-import SelectDropdown from "./inputs/SelectDropdown";
-import { jobStatuses } from "../constants/jobs";
-import type { JobStatus } from "../constants/jobs";
+import type { Job } from '../constants/jobs';
+import { useJobs } from '../hooks/useJobs';
+import SelectDropdown from './inputs/SelectDropdown';
+import { jobStatuses } from '../constants/jobs';
+import type { JobStatus } from '../constants/jobs';
 
 type EditJobProps = {
   editableJob: Job;
@@ -13,7 +13,7 @@ type EditJobProps = {
 export default function EditJobModal({
   editableJob,
   setEditableJob,
-  handleToggleModal,
+  handleToggleModal
 }: EditJobProps) {
   const { updateJob } = useJobs();
 
@@ -29,7 +29,7 @@ export default function EditJobModal({
       onClick={() => handleToggleModal()}
     >
       <div
-        className="flex flex-col items-center justify-center bg-white p-4 rounded-md w-lg"
+        className="flex w-lg flex-col items-center justify-center rounded-md bg-white p-4"
         onClick={(e) => e.stopPropagation()}
       >
         <h1 className="text-2xl font-bold">Edit Job</h1>
@@ -41,7 +41,7 @@ export default function EditJobModal({
                 type="text"
                 id="title"
                 name="title"
-                className="border border-gray-300 rounded-md p-2"
+                className="rounded-md border border-gray-300 p-2"
                 value={editableJob.title}
                 onChange={(e) => setEditableJob({ ...editableJob, title: e.target.value })}
               />
@@ -52,7 +52,7 @@ export default function EditJobModal({
                 type="text"
                 id="company"
                 name="company"
-                className="border border-gray-300 rounded-md p-2"
+                className="rounded-md border border-gray-300 p-2"
                 value={editableJob.company}
                 onChange={(e) => setEditableJob({ ...editableJob, company: e.target.value })}
               />
@@ -63,7 +63,7 @@ export default function EditJobModal({
                 type="text"
                 id="location"
                 name="location"
-                className="border border-gray-300 rounded-md p-2"
+                className="rounded-md border border-gray-300 p-2"
                 value={editableJob.location}
                 onChange={(e) => setEditableJob({ ...editableJob, location: e.target.value })}
               />
@@ -74,7 +74,7 @@ export default function EditJobModal({
                 type="text"
                 id="salary"
                 name="salary"
-                className="border border-gray-300 rounded-md p-2"
+                className="rounded-md border border-gray-300 p-2"
                 value={editableJob.salary}
                 onChange={(e) => setEditableJob({ ...editableJob, salary: e.target.value })}
               />
@@ -85,7 +85,7 @@ export default function EditJobModal({
                 type="url"
                 id="url"
                 name="url"
-                className="border border-gray-300 rounded-md p-2"
+                className="rounded-md border border-gray-300 p-2"
                 value={editableJob.url}
                 onChange={(e) => setEditableJob({ ...editableJob, url: e.target.value })}
               />
@@ -95,7 +95,7 @@ export default function EditJobModal({
               <textarea
                 id="description"
                 name="description"
-                className="border border-gray-300 rounded-md p-2"
+                className="rounded-md border border-gray-300 p-2"
                 value={editableJob.notes}
                 onChange={(e) => setEditableJob({ ...editableJob, notes: e.target.value })}
               />
@@ -110,12 +110,12 @@ export default function EditJobModal({
             </div>
           </div>
           <div className="flex flex-row items-center justify-between gap-2">
-            <button type="submit" className="bg-blue-500 text-white rounded-md p-2">
+            <button type="submit" className="rounded-md bg-blue-500 p-2 text-white">
               Save Job
             </button>
             <button
               type="button"
-              className="bg-red-500 text-white rounded-md p-2"
+              className="rounded-md bg-red-500 p-2 text-white"
               onClick={() => handleToggleModal()}
             >
               Cancel

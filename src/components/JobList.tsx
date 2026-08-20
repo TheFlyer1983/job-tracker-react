@@ -1,6 +1,6 @@
-import type { Job } from "../constants/jobs";
-import { jobStatuses } from "../constants/jobs";
-import JobColumn from "./JobColumn";
+import type { Job } from '../constants/jobs';
+import { jobStatuses } from '../constants/jobs';
+import JobColumn from './JobColumn';
 
 type JobListProps = {
   jobs: Job[];
@@ -20,14 +20,9 @@ export default function JobList({ jobs, editJob }: JobListProps) {
 
   return (
     <>
-      <div className="flex flex-row gap-4 w-max">
+      <div className="flex w-max flex-row gap-4">
         {jobStatuses.map((status) => (
-          <JobColumn
-            status={status}
-            jobs={columns[status] ?? []}
-            key={status}
-            editJob={editJob}
-          />
+          <JobColumn status={status} jobs={columns[status] ?? []} key={status} editJob={editJob} />
         ))}
       </div>
     </>
