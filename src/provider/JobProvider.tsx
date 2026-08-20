@@ -29,6 +29,7 @@ export function JobProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   async function addJob(job: Omit<Job, 'id'>) {
+    setIsLoading(true);
     try {
       const newJob = { ...job, id: crypto.randomUUID() };
 
@@ -36,10 +37,13 @@ export function JobProvider({ children }: { children: React.ReactNode }) {
       setJobs((currentJobs) => [...currentJobs, response]);
     } catch {
       setError('Failed to add job');
+    } finally {
+      setIsLoading(false);
     }
   }
 
   async function updateJob(updatedJob: Job) {
+    setIsLoading(true);
     try {
     await updateJobApi(updatedJob);
 
@@ -48,16 +52,21 @@ export function JobProvider({ children }: { children: React.ReactNode }) {
       );
     } catch {
       setError('Failed to update job');
+    } finally {
+      setIsLoading(false);
     }
   }
 
   async function deleteJob(id: Job['id']) {
+    setIsLoading(true);
     try {
     await deleteJobApi(id);
 
     setJobs((currentJobs) => currentJobs.filter((job) => job.id !== id));
     } catch {
       setError('Failed to delete job');
+    } finally {
+      setIsLoading(false);
     }
   }
 

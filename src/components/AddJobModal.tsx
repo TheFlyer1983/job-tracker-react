@@ -4,6 +4,7 @@ import SelectDropdown from './inputs/SelectDropdown';
 import { jobStatuses } from '../constants/jobs';
 import type { JobStatus } from '../constants/jobs';
 import { useJobs } from '../hooks/useJobs';
+import { Button } from './inputs/button/Button';
 
 type AddJobProps = {
   handleToggleModal: (modalName?: string | null) => void;
@@ -111,17 +112,14 @@ export default function AddJob({ handleToggleModal }: AddJobProps) {
               />
             </div>
           </div>
-          <div className="flex flex-row items-center justify-between gap-2">
-            <button type="submit" className="rounded-md bg-blue-500 p-2 text-white">
-              Add Job
-            </button>
-            <button
+          <div className="flex flex-row items-center justify-between gap-2 pt-4">
+            <Button type="submit" label="Add Job" variant="primary" />
+            <Button
+              variant="danger"
               type="button"
-              className="rounded-md bg-red-500 p-2 text-white"
               onClick={() => handleToggleModal()}
-            >
-              Cancel
-            </button>
+              label="Cancel"
+            />
           </div>
         </form>
       </div>

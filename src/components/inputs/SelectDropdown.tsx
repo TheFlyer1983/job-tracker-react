@@ -8,7 +8,7 @@ export default function SelectDropdown({ options, value, setValue }: SelectDropd
   return (
     <select
       value={value}
-      className="mb-4 rounded-md border border-gray-300 p-2"
+      className="rounded-md border border-gray-300 p-2"
       onChange={(e) => setValue(e.target.value)}
     >
       <option value="">All</option>

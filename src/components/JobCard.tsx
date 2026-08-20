@@ -1,6 +1,7 @@
 import type { Job } from '../constants/jobs';
 import { NavLink } from 'react-router';
 import { useJobs } from '../hooks/useJobs';
+import { Button } from './inputs/button/Button';
 
 type JobCardProps = {
   job: Job;
@@ -61,18 +62,11 @@ export default function JobCard({ job, editJob }: JobCardProps) {
         </div>
         <hr />
         <div className="my-4 flex justify-around gap-x-4 text-sm text-gray-500">
-          <NavLink to={`/jobs/${job.id}`} className="rounded-md border border-gray-500 p-2">
-            View Job
-          </NavLink>
-          <button className="rounded-md border border-gray-500 p-2" onClick={() => editJob(job)}>
-            Edit Job
-          </button>
-          <button
-            className="rounded-md border border-gray-500 p-2"
-            onClick={() => deleteJob(job.id)}
-          >
-            Delete Job
-          </button>
+          <Button type="link" to={`/jobs/${job.id}`} label="View Job" variant="outline" />
+
+          <Button variant="outline" onClick={() => editJob(job)} label="Edit Job" />
+
+          <Button variant="outline" label="Delete Job" onClick={() => deleteJob(job.id)} />
         </div>
       </div>
     </>

@@ -1,6 +1,7 @@
 import type { JobStatus } from '../constants/jobs';
 import { jobStatuses } from '../constants/jobs';
 import SelectDropdown from './inputs/SelectDropdown';
+import { Button } from './inputs/button/Button';
 
 type SearchBoxProps = {
   searchText: string;
@@ -18,12 +19,12 @@ export default function SearchBox({
   handleToggleModal
 }: SearchBoxProps) {
   return (
-    <div className="flex flex-row justify-between gap-4">
+    <div className="flex flex-row justify-between gap-4 items-center mb-4 ">
       <div className="flex flex-row gap-4">
         <input
           type="text"
           placeholder="Search Jobs"
-          className="mb-4 rounded-md border border-gray-300 p-2"
+          className="rounded-md border border-gray-300 p-2"
           value={searchText}
           onChange={(e) => setSearchText(e.target.value)}
         />
@@ -34,12 +35,7 @@ export default function SearchBox({
         />
       </div>
       <div className="flex flex-row gap-4">
-        <button
-          className="mb-4 rounded-md border border-gray-300 p-2"
-          onClick={() => handleToggleModal('addJob')}
-        >
-          Add Job
-        </button>
+        <Button variant="primary" label="Add Job" onClick={() => handleToggleModal('addJob')} />
       </div>
     </div>
   );
