@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { JobContext } from '../contexts/JobContext';
 import type { Job } from '../constants/jobs';
 import {
@@ -8,80 +8,88 @@ import {
   updateJob as updateJobApi
 } from '../api/jobs';
 import { useNotifications } from '../hooks/useNotifications';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 
 export function JobProvider({ children }: { children: React.ReactNode }) {
   const { addNotification } = useNotifications();
-  const [jobs, setJobs] = useState<Job[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const queryClient = useQueryClient();
+
+  const {
+    data: jobs = [],
+    isLoading,
+    isError
+  } = useQuery({
+    queryKey: ['jobs'],
+    queryFn: getJobs,
+    staleTime: 30_000
+  });
 
   useEffect(() => {
-    async function loadJobs() {
-      try {
-        const jobs = await getJobs();
-        setJobs(jobs);
-      } catch {
-        // setError('Failed to load jobs');
-        addNotification({
-          type: 'error',
-          message: 'Failed to load jobs'
-        });
-      } finally {
-        setIsLoading(false);
-      }
+    if (isError) {
+      addNotification({
+        type: 'error',
+        message: 'Failed to load jobs'
+      });
     }
+  }, [isError, addNotification]);
 
-    loadJobs();
-  }, [addNotification]);
+  const addJobMutation = useMutation({
+    mutationFn: addJobApi,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['jobs'] });
+    },
+    onError: (error) => {
+      console.log(error);
 
-  async function addJob(job: Omit<Job, 'id'>) {
-    setIsLoading(true);
-    try {
-      const newJob = { ...job, id: crypto.randomUUID() };
-
-      const response = await addJobApi(newJob);
-      setJobs((currentJobs) => [...currentJobs, response]);
-    } catch {
       addNotification({
         type: 'error',
         message: 'Failed to add job'
       });
-    } finally {
-      setIsLoading(false);
     }
-  }
+  });
 
-  async function updateJob(updatedJob: Job) {
-    setIsLoading(true);
-    try {
-      await updateJobApi(updatedJob);
+  const updateJobMutation = useMutation({
+    mutationFn: updateJobApi,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['jobs'] });
+    },
+    onError: (error) => {
+      console.log(error);
 
-      setJobs((currentJobs) =>
-        currentJobs.map((job) => (job.id === updatedJob.id ? { ...job, ...updatedJob } : job))
-      );
-    } catch {
       addNotification({
         type: 'error',
         message: 'Failed to update job'
       });
-    } finally {
-      setIsLoading(false);
     }
-  }
+  });
 
-  async function deleteJob(id: Job['id']) {
-    setIsLoading(true);
-    try {
-      await deleteJobApi(id);
+  const deleteJobMutation = useMutation({
+    mutationFn: deleteJobApi,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['jobs'] });
+    },
+    onError: (error) => {
+      console.log(error);
 
-      setJobs((currentJobs) => currentJobs.filter((job) => job.id !== id));
-    } catch {
       addNotification({
         type: 'error',
         message: 'Failed to delete job'
       });
-    } finally {
-      setIsLoading(false);
     }
+  });
+
+  function addJob(job: Omit<Job, 'id'>) {
+    const newJob = { ...job, id: crypto.randomUUID() };
+
+    addJobMutation.mutate(newJob);
+  }
+
+  async function updateJob(updatedJob: Job) {
+    updateJobMutation.mutate(updatedJob);
+  }
+
+  async function deleteJob(id: Job['id']) {
+    deleteJobMutation.mutate(id);
   }
 
   return (
