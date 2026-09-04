@@ -1,7 +1,6 @@
-import type { Job } from '../constants/jobs';
-import { NavLink } from 'react-router';
-import { useJobs } from '../hooks/useJobs';
-import { Button } from './inputs/button/Button';
+import type { Job } from '../../constants/jobs';
+import { useJobs } from '../../hooks/useJobs';
+import { Button } from '../inputs/button/Button';
 
 type JobCardProps = {
   job: Job;

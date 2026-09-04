@@ -3,11 +3,12 @@ import { useEffect, useState } from 'react';
 import type { Job } from '../constants/jobs';
 import AppHeader from '../components/AppHeader';
 import { getJob } from '../api/jobs';
+import { useNotifications } from '../hooks/useNotifications';
 
 export default function JobDetails() {
   const { id } = useParams();
   const [job, setJob] = useState<Job | null>(null);
-
+  const { addNotification } = useNotifications();
   useEffect(() => {
     async function loadJob() {
       if (!id) return;
@@ -16,12 +17,15 @@ export default function JobDetails() {
         const job = await getJob(id);
         setJob(job);
       } catch {
-        console.log('Failed to load job');
+        addNotification({
+          type: 'error',
+          message: 'Failed to load job'
+        });
       }
     }
 
     loadJob();
-  }, [id]);
+  }, [id, addNotification]);
 
   return (
     <>

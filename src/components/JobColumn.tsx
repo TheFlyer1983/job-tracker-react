@@ -1,5 +1,5 @@
 import type { Job, JobStatus } from '../constants/jobs';
-import JobCard from './JobCard';
+import JobCard from './job-card/JobCard';
 
 type JobColumnProps = {
   status: JobStatus;

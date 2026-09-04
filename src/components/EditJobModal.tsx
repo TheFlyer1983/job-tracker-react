@@ -1,6 +1,6 @@
 import type { Job } from '../constants/jobs';
 import { useJobs } from '../hooks/useJobs';
-import SelectDropdown from './inputs/SelectDropdown';
+import SelectDropdown from './inputs/select/SelectDropdown';
 import { jobStatuses } from '../constants/jobs';
 import type { JobStatus } from '../constants/jobs';
 import { Button } from './inputs/button/Button';
@@ -112,11 +112,7 @@ export default function EditJobModal({
           </div>
           <div className="flex flex-row items-center justify-between gap-2">
             <Button type="submit" label="Save Job" />
-            <Button
-              type="button"
-              label="Cancel"
-              onClick={() => handleToggleModal()}
-            />
+            <Button type="button" label="Cancel" onClick={() => handleToggleModal()} />
           </div>
         </form>
       </div>

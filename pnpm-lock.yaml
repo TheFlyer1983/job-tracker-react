@@ -66,6 +66,9 @@ importers:
       msw:
         specifier: ^2.15.0
         version: 2.15.0(@types/node@24.13.3)(typescript@6.0.3)
+      msw-storybook-addon:
+        specifier: ^3.0.0
+        version: 3.0.0(msw@2.15.0(@types/node@24.13.3)(typescript@6.0.3))(storybook@10.5.10(@types/react@19.2.18)(react@19.2.8))
       oxlint:
         specifier: ^1.75.0
         version: 1.78.0
@@ -1959,6 +1962,13 @@ packages:
 
   ms@2.1.3:
     resolution: {integrity: sha512-6FlzubTLZG3J2a/NVCAleEhjzq5oxgHyaCU9yYXvcLsvoVaHJq/s5xXI6/XXP6tz7R9xAOtHnSO/tXtF3WRTlA==}
+
+  msw-storybook-addon@3.0.0:
+    resolution: {integrity: sha512-tyYmYAwSGcfFSHhrE5yzun/OXuVIkBGOt4YTsH5IR94N38F+hzZhvGqe5scu1ENJh/hOApI/8ZRQkWdFNFsKcw==}
+    hasBin: true
+    peerDependencies:
+      msw: '>=2'
+      storybook: '>=9'
 
   msw@2.15.0:
     resolution: {integrity: sha512-2wQAmKkQKxRuXvYJxVhPGG0wZNBQyD06oJvxqw90XqLvptdqxdlHrFUfEteKkpaNORX3Xzc+HtEl/q0nfmN2wQ==}
@@ -3947,6 +3957,11 @@ snapshots:
   mrmime@2.0.1: {}
 
   ms@2.1.3: {}
+
+  msw-storybook-addon@3.0.0(msw@2.15.0(@types/node@24.13.3)(typescript@6.0.3))(storybook@10.5.10(@types/react@19.2.18)(react@19.2.8)):
+    dependencies:
+      msw: 2.15.0(@types/node@24.13.3)(typescript@6.0.3)
+      storybook: 10.5.10(@types/react@19.2.18)(react@19.2.8)
 
   msw@2.15.0(@types/node@24.13.3)(typescript@6.0.3):
     dependencies:

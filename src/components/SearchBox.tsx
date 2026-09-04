@@ -1,6 +1,6 @@
 import type { JobStatus } from '../constants/jobs';
 import { jobStatuses } from '../constants/jobs';
-import SelectDropdown from './inputs/SelectDropdown';
+import SelectDropdown from './inputs/select/SelectDropdown';
 import { Button } from './inputs/button/Button';
 
 type SearchBoxProps = {
@@ -19,7 +19,7 @@ export default function SearchBox({
   handleToggleModal
 }: SearchBoxProps) {
   return (
-    <div className="flex flex-row justify-between gap-4 items-center mb-4 ">
+    <div className="mb-4 flex flex-row items-center justify-between gap-4">
       <div className="flex flex-row gap-4">
         <input
           type="text"

@@ -7,10 +7,11 @@ import {
   deleteJob as deleteJobApi,
   updateJob as updateJobApi
 } from '../api/jobs';
+import { useNotifications } from '../hooks/useNotifications';
 
 export function JobProvider({ children }: { children: React.ReactNode }) {
+  const { addNotification } = useNotifications();
   const [jobs, setJobs] = useState<Job[]>([]);
-  const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -19,14 +20,18 @@ export function JobProvider({ children }: { children: React.ReactNode }) {
         const jobs = await getJobs();
         setJobs(jobs);
       } catch {
-        setError('Failed to load jobs');
+        // setError('Failed to load jobs');
+        addNotification({
+          type: 'error',
+          message: 'Failed to load jobs'
+        });
       } finally {
         setIsLoading(false);
       }
     }
 
     loadJobs();
-  }, []);
+  }, [addNotification]);
 
   async function addJob(job: Omit<Job, 'id'>) {
     setIsLoading(true);
@@ -36,7 +41,10 @@ export function JobProvider({ children }: { children: React.ReactNode }) {
       const response = await addJobApi(newJob);
       setJobs((currentJobs) => [...currentJobs, response]);
     } catch {
-      setError('Failed to add job');
+      addNotification({
+        type: 'error',
+        message: 'Failed to add job'
+      });
     } finally {
       setIsLoading(false);
     }
@@ -45,13 +53,16 @@ export function JobProvider({ children }: { children: React.ReactNode }) {
   async function updateJob(updatedJob: Job) {
     setIsLoading(true);
     try {
-    await updateJobApi(updatedJob);
+      await updateJobApi(updatedJob);
 
-    setJobs((currentJobs) =>
+      setJobs((currentJobs) =>
         currentJobs.map((job) => (job.id === updatedJob.id ? { ...job, ...updatedJob } : job))
       );
     } catch {
-      setError('Failed to update job');
+      addNotification({
+        type: 'error',
+        message: 'Failed to update job'
+      });
     } finally {
       setIsLoading(false);
     }
@@ -60,11 +71,14 @@ export function JobProvider({ children }: { children: React.ReactNode }) {
   async function deleteJob(id: Job['id']) {
     setIsLoading(true);
     try {
-    await deleteJobApi(id);
+      await deleteJobApi(id);
 
-    setJobs((currentJobs) => currentJobs.filter((job) => job.id !== id));
+      setJobs((currentJobs) => currentJobs.filter((job) => job.id !== id));
     } catch {
-      setError('Failed to delete job');
+      addNotification({
+        type: 'error',
+        message: 'Failed to delete job'
+      });
     } finally {
       setIsLoading(false);
     }
@@ -77,7 +91,6 @@ export function JobProvider({ children }: { children: React.ReactNode }) {
         addJob,
         updateJob,
         deleteJob,
-        error,
         isLoading
       }}
     >

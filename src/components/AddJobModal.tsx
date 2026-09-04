@@ -1,6 +1,6 @@
 import type { Job } from '../constants/jobs';
 import { useState } from 'react';
-import SelectDropdown from './inputs/SelectDropdown';
+import SelectDropdown from './inputs/select/SelectDropdown';
 import { jobStatuses } from '../constants/jobs';
 import type { JobStatus } from '../constants/jobs';
 import { useJobs } from '../hooks/useJobs';

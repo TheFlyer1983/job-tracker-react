@@ -1,8 +1,15 @@
 import type { Preview } from '@storybook/react-vite'
+import { mswLoader } from 'msw-storybook-addon/csf3';
+import { handlers } from '../src/mocks/handlers';
 import '../src/index.css';
 
 const preview: Preview = {
+  loaders: [mswLoader()],
+
   parameters: {
+    msw: {
+      handlers,
+    },
     controls: {
       matchers: {
        color: /(background|color)$/i,

@@ -6,7 +6,6 @@ type JobContextType = {
   addJob: (job: Omit<Job, 'id'>) => void;
   updateJob: (job: Job) => void;
   deleteJob: (id: Job['id']) => void;
-  error: string | null;
   isLoading: boolean;
 };
 
