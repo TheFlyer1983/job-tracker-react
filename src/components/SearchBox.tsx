@@ -2,13 +2,13 @@ import type { JobStatus } from '../constants/jobs';
 import { jobStatuses } from '../constants/jobs';
 import SelectDropdown from './inputs/select/SelectDropdown';
 import { Button } from './inputs/button/Button';
+import { useModal } from '../hooks/useModal';
 
 type SearchBoxProps = {
   searchText: string;
   setSearchText: (searchText: string) => void;
   statusFilter: JobStatus | '';
   setStatusFilter: (statusFilter: JobStatus | '') => void;
-  handleToggleModal: (string: string) => void;
 };
 
 export default function SearchBox({
@@ -16,8 +16,9 @@ export default function SearchBox({
   setSearchText,
   statusFilter,
   setStatusFilter,
-  handleToggleModal
 }: SearchBoxProps) {
+  const { openModal } = useModal();
+
   return (
     <div className="mb-4 flex flex-row items-center justify-between gap-4">
       <div className="flex flex-row gap-4">
@@ -35,7 +36,7 @@ export default function SearchBox({
         />
       </div>
       <div className="flex flex-row gap-4">
-        <Button variant="primary" label="Add Job" onClick={() => handleToggleModal('addJob')} />
+        <Button variant="primary" label="Add Job" onClick={() => openModal({ type: 'add-job' })} />
       </div>
     </div>
   );

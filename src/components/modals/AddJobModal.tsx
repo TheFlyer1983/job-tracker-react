@@ -1,17 +1,16 @@
-import type { Job } from '../constants/jobs';
+import type { Job } from '../../constants/jobs';
 import { useState } from 'react';
-import SelectDropdown from './inputs/select/SelectDropdown';
-import { jobStatuses } from '../constants/jobs';
-import type { JobStatus } from '../constants/jobs';
-import { useJobs } from '../hooks/useJobs';
-import { Button } from './inputs/button/Button';
+import SelectDropdown from '../inputs/select/SelectDropdown';
+import { jobStatuses } from '../../constants/jobs';
+import type { JobStatus } from '../../constants/jobs';
+import { useJobs } from '../../hooks/useJobs';
+import { Button } from '../inputs/button/Button';
+import { useModal } from '../../hooks/useModal';
 
-type AddJobProps = {
-  handleToggleModal: (modalName?: string | null) => void;
-};
-
-export default function AddJob({ handleToggleModal }: AddJobProps) {
+export default function AddJob() {
   const { addJob } = useJobs();
+  const { closeModal } = useModal();
+
   const [job, setJob] = useState<Omit<Job, 'id'>>({
     company: '',
     title: '',
@@ -24,12 +23,12 @@ export default function AddJob({ handleToggleModal }: AddJobProps) {
   const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
     addJob(job);
-    handleToggleModal();
+    closeModal();
   };
   return (
     <div
       className="fixed inset-0 z-100 flex items-center justify-center bg-gray-900/50"
-      onClick={() => handleToggleModal()}
+      onClick={() => closeModal()}
     >
       <div
         className="flex w-lg flex-col items-center justify-center rounded-md bg-white p-4"
@@ -117,7 +116,7 @@ export default function AddJob({ handleToggleModal }: AddJobProps) {
             <Button
               variant="danger"
               type="button"
-              onClick={() => handleToggleModal()}
+              onClick={() => closeModal()}
               label="Cancel"
             />
           </div>

@@ -1,33 +1,34 @@
-import type { Job } from '../constants/jobs';
-import { useJobs } from '../hooks/useJobs';
-import SelectDropdown from './inputs/select/SelectDropdown';
-import { jobStatuses } from '../constants/jobs';
-import type { JobStatus } from '../constants/jobs';
-import { Button } from './inputs/button/Button';
+import type { Job } from '../../constants/jobs';
+import { useJobs } from '../../hooks/useJobs';
+import SelectDropdown from '../inputs/select/SelectDropdown';
+import { jobStatuses } from '../../constants/jobs';
+import type { JobStatus } from '../../constants/jobs';
+import { Button } from '../inputs/button/Button';
+import { useState } from 'react';
+import { useModal } from '../../hooks/useModal';
 
 type EditJobProps = {
   editableJob: Job;
-  setEditableJob: (job: Job) => void;
-  handleToggleModal: (modalName?: string | null) => void;
 };
 
 export default function EditJobModal({
   editableJob,
-  setEditableJob,
-  handleToggleModal
 }: EditJobProps) {
   const { updateJob } = useJobs();
+  const { closeModal } = useModal();
+
+  const [job, setJob] = useState<Job>(editableJob);
 
   const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
-    updateJob(editableJob);
-    handleToggleModal();
+    updateJob(job);
+    closeModal();
   };
 
   return (
     <div
       className="fixed inset-0 z-100 flex items-center justify-center bg-gray-900/50"
-      onClick={() => handleToggleModal()}
+        onClick={() => closeModal()}
     >
       <div
         className="flex w-lg flex-col items-center justify-center rounded-md bg-white p-4"
@@ -43,8 +44,8 @@ export default function EditJobModal({
                 id="title"
                 name="title"
                 className="rounded-md border border-gray-300 p-2"
-                value={editableJob.title}
-                onChange={(e) => setEditableJob({ ...editableJob, title: e.target.value })}
+                value={job.title}
+                onChange={(e) => setJob({ ...job, title: e.target.value })}
               />
             </div>
             <div className="flex flex-row items-center justify-between gap-2">
@@ -54,8 +55,8 @@ export default function EditJobModal({
                 id="company"
                 name="company"
                 className="rounded-md border border-gray-300 p-2"
-                value={editableJob.company}
-                onChange={(e) => setEditableJob({ ...editableJob, company: e.target.value })}
+                value={job.company}
+                onChange={(e) => setJob({ ...job, company: e.target.value })}
               />
             </div>
             <div className="flex flex-row items-center justify-between gap-2">
@@ -65,8 +66,8 @@ export default function EditJobModal({
                 id="location"
                 name="location"
                 className="rounded-md border border-gray-300 p-2"
-                value={editableJob.location}
-                onChange={(e) => setEditableJob({ ...editableJob, location: e.target.value })}
+                value={job.location}
+                onChange={(e) => setJob({ ...job, location: e.target.value })}
               />
             </div>
             <div className="flex flex-row items-center justify-between gap-2">
@@ -76,8 +77,8 @@ export default function EditJobModal({
                 id="salary"
                 name="salary"
                 className="rounded-md border border-gray-300 p-2"
-                value={editableJob.salary}
-                onChange={(e) => setEditableJob({ ...editableJob, salary: e.target.value })}
+                value={job.salary}
+                onChange={(e) => setJob({ ...job, salary: e.target.value })}
               />
             </div>
             <div className="flex flex-row items-center justify-between gap-2">
@@ -87,8 +88,8 @@ export default function EditJobModal({
                 id="url"
                 name="url"
                 className="rounded-md border border-gray-300 p-2"
-                value={editableJob.url}
-                onChange={(e) => setEditableJob({ ...editableJob, url: e.target.value })}
+                value={job.url}
+                onChange={(e) => setJob({ ...job, url: e.target.value })}
               />
             </div>
             <div className="flex flex-row items-center justify-between gap-2">
@@ -97,22 +98,22 @@ export default function EditJobModal({
                 id="description"
                 name="description"
                 className="rounded-md border border-gray-300 p-2"
-                value={editableJob.notes}
-                onChange={(e) => setEditableJob({ ...editableJob, notes: e.target.value })}
+                value={job.notes}
+                onChange={(e) => setJob({ ...job, notes: e.target.value })}
               />
             </div>
             <div className="flex flex-row items-center justify-between gap-2">
               <label htmlFor="status">Status</label>
               <SelectDropdown
                 options={Array.from(jobStatuses)}
-                value={editableJob.status}
-                setValue={(value) => setEditableJob({ ...editableJob, status: value as JobStatus })}
+                value={job.status}
+                setValue={(value) => setJob({ ...job, status: value as JobStatus })}
               />
             </div>
           </div>
           <div className="flex flex-row items-center justify-between gap-2">
             <Button type="submit" label="Save Job" />
-            <Button type="button" label="Cancel" onClick={() => handleToggleModal()} />
+            <Button type="button" label="Cancel" onClick={() => closeModal()} />
           </div>
         </form>
       </div>

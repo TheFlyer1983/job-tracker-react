@@ -9,6 +9,7 @@ import {
 } from '../api/jobs';
 import { useNotifications } from '../hooks/useNotifications';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import type { DeleteJobOptions } from '../contexts/JobContext';
 
 export function JobProvider({ children }: { children: React.ReactNode }) {
   const { addNotification } = useNotifications();
@@ -65,8 +66,10 @@ export function JobProvider({ children }: { children: React.ReactNode }) {
 
   const deleteJobMutation = useMutation({
     mutationFn: deleteJobApi,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['jobs'] });
+    onSuccess: (_, id) => {
+      queryClient.invalidateQueries({ queryKey: ['jobs'], exact: true });
+
+      console.log('DELETE SUCCESS', id);
     },
     onError: (error) => {
       console.log(error);
@@ -84,12 +87,14 @@ export function JobProvider({ children }: { children: React.ReactNode }) {
     addJobMutation.mutate(newJob);
   }
 
-  async function updateJob(updatedJob: Job) {
+  function updateJob(updatedJob: Job) {
     updateJobMutation.mutate(updatedJob);
   }
 
-  async function deleteJob(id: Job['id']) {
-    deleteJobMutation.mutate(id);
+  function deleteJob(id: Job['id'], options?: DeleteJobOptions) {
+    deleteJobMutation.mutate(id, {
+      onSuccess: options?.onSuccess
+    });
   }
 
   return (

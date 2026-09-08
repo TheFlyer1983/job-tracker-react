@@ -6,6 +6,7 @@ let jobs: Job[] = [...initialJobs];
 export const handlers = [
   http.get('/api/jobs', () => {
     return HttpResponse.json(jobs);
+    // return HttpResponse.json(null, { status: 500 });
   }),
 
   http.get('/api/jobs/:id', ({ params }) => {

@@ -1,16 +1,17 @@
 import type { Job } from '../../constants/jobs';
 import { useJobs } from '../../hooks/useJobs';
 import { Button } from '../inputs/button/Button';
+import { useModal } from '../../hooks/useModal';
 
 type JobCardProps = {
   job: Job;
-  editJob: (job: Job) => void;
 };
 
-export default function JobCard({ job, editJob }: JobCardProps) {
+export default function JobCard({ job }: JobCardProps) {
   const { status } = job;
 
   const { deleteJob } = useJobs();
+  const { openModal } = useModal();
 
   const statusBgColour =
     status === 'Applied'
@@ -63,7 +64,7 @@ export default function JobCard({ job, editJob }: JobCardProps) {
         <div className="my-4 flex justify-around gap-x-4 text-sm text-gray-500">
           <Button type="link" to={`/jobs/${job.id}`} label="View Job" variant="outline" />
 
-          <Button variant="outline" onClick={() => editJob(job)} label="Edit Job" />
+          <Button variant="outline" onClick={() => openModal({ type: 'edit-job', job })} label="Edit Job" />
 
           <Button variant="outline" label="Delete Job" onClick={() => deleteJob(job.id)} />
         </div>
