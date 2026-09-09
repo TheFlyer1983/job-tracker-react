@@ -1,15 +1,13 @@
-import type { Job } from '../constants/jobs';
+import type { JobStatus } from '../constants/jobs';
 import { useState } from 'react';
 import JobList from '../components/JobList';
 import AppHeader from '../components/AppHeader';
 import SearchBox from '../components/SearchBox';
-import AddJobModal from '../components/modals/AddJobModal';
-import EditJobModal from '../components/modals/EditJobModal';
 import { useJobs } from '../hooks/useJobs';
 
 export default function JobTracker() {
   const [searchText, setSearchText] = useState('');
-  const [statusFilter, setStatusFilter] = useState<Job['status'] | ''>('');
+  const [statusFilter, setStatusFilter] = useState<JobStatus | ''>('');
 
   const { jobs: allJobs } = useJobs();
 

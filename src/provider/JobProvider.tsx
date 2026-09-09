@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { JobContext } from '../contexts/JobContext';
-import type { Job } from '../constants/jobs';
+import type { Job, NewJob } from '../db/schema';
 import {
   getJobs,
   addJob as addJobApi,
@@ -81,9 +81,7 @@ export function JobProvider({ children }: { children: React.ReactNode }) {
     }
   });
 
-  function addJob(job: Omit<Job, 'id'>) {
-    const newJob = { ...job, id: crypto.randomUUID() };
-
+  function addJob(newJob: NewJob) {
     addJobMutation.mutate(newJob);
   }
 

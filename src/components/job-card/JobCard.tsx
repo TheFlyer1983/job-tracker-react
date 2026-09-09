@@ -1,4 +1,4 @@
-import type { Job } from '../../constants/jobs';
+import type { Job } from '../../db/schema';
 import { useJobs } from '../../hooks/useJobs';
 import { Button } from '../inputs/button/Button';
 import { useModal } from '../../hooks/useModal';
@@ -51,9 +51,11 @@ export default function JobCard({ job }: JobCardProps) {
         <hr />
         <div className="flex justify-between text-sm text-gray-500">
           <span className="font-bold">URL:</span>
-          <a href={job.url} className="underline">
-            {job.url}
-          </a>
+          {job.url && (
+            <a href={job.url} className="underline">
+              {job.url}
+            </a>
+          )}
         </div>
         <hr />
         <div className="flex justify-between gap-x-4 text-sm text-gray-500">
@@ -64,7 +66,11 @@ export default function JobCard({ job }: JobCardProps) {
         <div className="my-4 flex justify-around gap-x-4 text-sm text-gray-500">
           <Button type="link" to={`/jobs/${job.id}`} label="View Job" variant="outline" />
 
-          <Button variant="outline" onClick={() => openModal({ type: 'edit-job', job })} label="Edit Job" />
+          <Button
+            variant="outline"
+            onClick={() => openModal({ type: 'edit-job', job })}
+            label="Edit Job"
+          />
 
           <Button variant="outline" label="Delete Job" onClick={() => deleteJob(job.id)} />
         </div>

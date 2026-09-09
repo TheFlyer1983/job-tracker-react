@@ -1,4 +1,4 @@
-import type { Job } from '../../constants/jobs';
+import type { NewJob } from '../../db/schema';
 import { useState } from 'react';
 import SelectDropdown from '../inputs/select/SelectDropdown';
 import { jobStatuses } from '../../constants/jobs';
@@ -11,7 +11,7 @@ export default function AddJob() {
   const { addJob } = useJobs();
   const { closeModal } = useModal();
 
-  const [job, setJob] = useState<Omit<Job, 'id'>>({
+  const [job, setJob] = useState<NewJob>({
     company: '',
     title: '',
     location: '',
@@ -66,7 +66,7 @@ export default function AddJob() {
                 id="location"
                 name="location"
                 className="rounded-md border border-gray-300 p-2"
-                value={job.location}
+                value={job.location ?? ''}
                 onChange={(e) => setJob({ ...job, location: e.target.value })}
               />
             </div>
@@ -77,7 +77,7 @@ export default function AddJob() {
                 id="salary"
                 name="salary"
                 className="rounded-md border border-gray-300 p-2"
-                value={job.salary}
+                value={job.salary ?? ''}
                 onChange={(e) => setJob({ ...job, salary: e.target.value })}
               />
             </div>
@@ -88,7 +88,7 @@ export default function AddJob() {
                 id="url"
                 name="url"
                 className="rounded-md border border-gray-300 p-2"
-                value={job.url}
+                value={job.url ?? ''}
                 onChange={(e) => setJob({ ...job, url: e.target.value })}
               />
             </div>
@@ -98,7 +98,7 @@ export default function AddJob() {
                 id="description"
                 name="description"
                 className="rounded-md border border-gray-300 p-2"
-                value={job.notes}
+                value={job.notes ?? ''}
                 onChange={(e) => setJob({ ...job, notes: e.target.value })}
               />
             </div>
@@ -106,7 +106,7 @@ export default function AddJob() {
               <label htmlFor="status">Status</label>
               <SelectDropdown
                 options={Array.from(jobStatuses)}
-                value={job.status}
+                value={job.status ?? ''}
                 setValue={(value) => setJob({ ...job, status: value as JobStatus })}
               />
             </div>

@@ -4,47 +4,47 @@ import { initialJobs, type Job } from '../constants/jobs';
 let jobs: Job[] = [...initialJobs];
 
 export const handlers = [
-  http.get('/api/jobs', () => {
-    return HttpResponse.json(jobs);
-    // return HttpResponse.json(null, { status: 500 });
-  }),
+  // http.get('/api/jobs', () => {
+  //   return HttpResponse.json(jobs);
+  //   // return HttpResponse.json(null, { status: 500 });
+  // }),
 
-  http.get('/api/jobs/:id', ({ params }) => {
-    const { id } = params;
+  // http.get('/api/jobs/:id', ({ params }) => {
+  //   const { id } = params;
 
-    const job = jobs.find((job) => job.id === id);
+  //   const job = jobs.find((job) => job.id === id);
 
-    if (!job) {
-      return new HttpResponse(null, {
-        status: 404
-      });
-    }
+  //   if (!job) {
+  //     return new HttpResponse(null, {
+  //       status: 404
+  //     });
+  //   }
 
-    return HttpResponse.json(job);
-  }),
+  //   return HttpResponse.json(job);
+  // }),
 
-  http.post<never, Job>('/api/jobs', async ({ request }) => {
-    const job = await request.json();
+  // http.post<never, Job>('/api/jobs', async ({ request }) => {
+  //   const job = await request.json();
 
-    jobs.push(job);
+  //   jobs.push(job);
 
-    return HttpResponse.json(job, { status: 201 });
-  }),
+  //   return HttpResponse.json(job, { status: 201 });
+  // }),
 
-  http.put<never, Job>('/api/jobs/:id', async ({ request, params }) => {
-    const { id } = params;
-    const updatedJob = await request.json();
+  // http.put<never, Job>('/api/jobs/:id', async ({ request, params }) => {
+  //   const { id } = params;
+  //   const updatedJob = await request.json();
 
-    jobs = jobs.map((j) => (j.id === id ? { ...j, ...updatedJob } : j));
+  //   jobs = jobs.map((j) => (j.id === id ? { ...j, ...updatedJob } : j));
 
-    return HttpResponse.json(updatedJob, { status: 200 });
-  }),
+  //   return HttpResponse.json(updatedJob, { status: 200 });
+  // }),
 
-  http.delete('/api/jobs/:id', ({ params }) => {
-    const { id } = params;
+  // http.delete('/api/jobs/:id', ({ params }) => {
+  //   const { id } = params;
 
-    jobs = jobs.filter((job) => job.id !== id);
+  //   jobs = jobs.filter((job) => job.id !== id);
 
-    return HttpResponse.json(null, { status: 204 });
-  })
+  //   return HttpResponse.json(null, { status: 204 });
+  // })
 ];

@@ -26,3 +26,6 @@ src/stories
 
 *storybook.log
 storybook-static
+
+# Environment variables
+.env

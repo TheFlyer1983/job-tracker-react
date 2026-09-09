@@ -1,4 +1,4 @@
-import type { Job } from '../constants/jobs';
+import type { Job } from '../db/schema';
 import { jobStatuses } from '../constants/jobs';
 import JobColumn from './JobColumn';
 

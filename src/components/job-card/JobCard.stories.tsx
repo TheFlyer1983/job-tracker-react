@@ -1,10 +1,21 @@
-import type { Meta, StoryFn, StoryObj } from '@storybook/react-vite';
-import { initialJobs } from '../../constants/jobs';
+import type { Meta, StoryObj } from '@storybook/react-vite';
+import type { Job } from '../../db/schema';
 import { MemoryRouter } from 'react-router';
 import { JobProvider } from '../../provider/JobProvider';
 import { NotificationProvider } from '../../provider/NotificationProvider';
 
 import JobCard from './JobCard';
+
+const job: Job = {
+  id: '1',
+  company: 'Company',
+  title: 'Title',
+  location: 'Location',
+  salary: 'Salary',
+  status: 'Status',
+  url: 'URL',
+  notes: 'Notes'
+};
 
 const meta = {
   title: 'Components/Elements/JobCard',
@@ -13,9 +24,6 @@ const meta = {
     layout: 'centered'
   },
   tags: ['autodocs'],
-  args: {
-    editJob: () => {}
-  },
   decorators: [
     (Story) => (
       <MemoryRouter>
@@ -34,7 +42,6 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
-    job: initialJobs[0],
-    editJob: () => console.log('clicked')
+    job
   }
 };

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import type { Job } from '../constants/jobs';
+import type { Job } from '../db/schema';
 import { ModalContext } from '../contexts/ModalContext';
 
 export type Modal = { type: 'add-job' } | { type: 'edit-job'; job: Job } | null;

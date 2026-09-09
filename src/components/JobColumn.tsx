@@ -1,4 +1,5 @@
-import type { Job, JobStatus } from '../constants/jobs';
+import type { Job } from '../db/schema';
+import type { JobStatus } from '../constants/jobs';
 import JobCard from './job-card/JobCard';
 
 type JobColumnProps = {
