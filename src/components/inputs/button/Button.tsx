@@ -14,8 +14,8 @@ type ButtonProps =
   | (CommonProps & {
       type: 'link';
       to: string;
-  });
-    
+    });
+
 const variantClasses = {
   primary: 'bg-blue-500 text-white hover:bg-blue-700',
   secondary: 'bg-gray-200 text-gray-900 hover:bg-gray-300',
@@ -39,7 +39,6 @@ export function Button(props: ButtonProps) {
     sizeClasses[size]
   ].join(' ');
 
-  
   if (props.type === 'link') {
     return (
       <NavLink className={className} to={props.to}>

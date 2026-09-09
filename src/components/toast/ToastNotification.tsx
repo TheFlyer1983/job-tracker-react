@@ -17,7 +17,6 @@ export default function ToastNotification({
   notification,
   removeNotification
 }: ToastNotificationProps) {
-
   useEffect(() => {
     if (!notification.autoClose) return;
 
@@ -32,7 +31,7 @@ export default function ToastNotification({
     <div
       key={notification.id}
       role={notification.type === 'error' ? 'alert' : 'status'}
-      className={`${typeClasses[notification.type]} mb-4 flex flex-col rounded-md p-4 w-full`}
+      className={`${typeClasses[notification.type]} mb-4 flex w-full flex-col rounded-md p-4`}
     >
       {notification.title && <strong className="block">{notification.title}</strong>}
 

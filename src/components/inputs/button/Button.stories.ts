@@ -6,14 +6,14 @@ const meta = {
   title: 'Components/Inputs/Button',
   component: Button,
   parameters: {
-    layout: 'centered',
+    layout: 'centered'
   },
   tags: ['autodocs'],
   argTypes: {
     variant: { control: 'select', options: ['primary', 'secondary', 'outline', 'danger'] },
-    size: { control: 'select', options: ['small', 'medium', 'large'] },
+    size: { control: 'select', options: ['small', 'medium', 'large'] }
   },
-  args: { onClick: () => { } },
+  args: { onClick: () => {} }
 } satisfies Meta<typeof Button>;
 
 export default meta;
@@ -24,6 +24,6 @@ export const Primary: Story = {
     variant: 'primary',
     size: 'medium',
     label: 'Button',
-    onClick: () => console.log('clicked'),
+    onClick: () => console.log('clicked')
   }
-}
+};

@@ -11,10 +11,6 @@ export default function JobTracker() {
 
   const { jobs: allJobs } = useJobs();
 
-
-
-
-
   const filteredJobs = allJobs
     .filter((job) => statusFilter === '' || job.status === statusFilter)
     .filter((job) => job.title.toLowerCase().includes(searchText.toLowerCase()));

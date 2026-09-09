@@ -5,7 +5,12 @@ type SelectDropdownProps = {
   className?: string;
 };
 
-export default function SelectDropdown({ options, value, setValue, className }: SelectDropdownProps) {
+export default function SelectDropdown({
+  options,
+  value,
+  setValue,
+  className
+}: SelectDropdownProps) {
   return (
     <select
       value={value}

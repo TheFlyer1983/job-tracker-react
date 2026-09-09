@@ -76,7 +76,8 @@ export const initialJobs: NewJob[] = [
     salary: 'Unknown',
     status: 'Applied',
     url: 'https://www.gitlab.com/',
-    notes: 'GitLab is a software development platform that provides a comprehensive suite of tools for software development, project management, and collaboration.'
+    notes:
+      'GitLab is a software development platform that provides a comprehensive suite of tools for software development, project management, and collaboration.'
   },
   {
     company: 'First Up',
@@ -85,6 +86,7 @@ export const initialJobs: NewJob[] = [
     salary: 'Unknown',
     status: 'Applied',
     url: 'https://firstup.io/',
-    notes: 'Firstup is an employee communications platform that uses data and AI to deliver personalised communications and improve employee engagement and experience at scale.'
+    notes:
+      'Firstup is an employee communications platform that uses data and AI to deliver personalised communications and improve employee engagement and experience at scale.'
   }
 ];
