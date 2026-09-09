@@ -1,13 +1,12 @@
-import type { Job } from '../constants/jobs';
+import type { Job } from '../db/schema';
 import { jobStatuses } from '../constants/jobs';
 import JobColumn from './JobColumn';
 
 type JobListProps = {
   jobs: Job[];
-  editJob: (job: Job) => void;
 };
 
-export default function JobList({ jobs, editJob }: JobListProps) {
+export default function JobList({ jobs }: JobListProps) {
   const columns: Record<string, Job[]> = {};
 
   for (const job of jobs) {
@@ -22,7 +21,7 @@ export default function JobList({ jobs, editJob }: JobListProps) {
     <>
       <div className="flex w-max flex-row gap-4">
         {jobStatuses.map((status) => (
-          <JobColumn status={status} jobs={columns[status] ?? []} key={status} editJob={editJob} />
+          <JobColumn status={status} jobs={columns[status] ?? []} key={status} />
         ))}
       </div>
     </>

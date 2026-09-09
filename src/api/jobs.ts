@@ -1,8 +1,11 @@
-import type { Job } from '../constants/jobs';
+import type { Job, NewJob } from '../db/schema';
+import { hc } from 'hono/client';
+import type { AppType } from './app';
 
-export async function getJobs(): Promise<Job[]> {
-  const response = await fetch('/api/jobs');
+const client = hc<AppType>('/');
 
+export async function getJobs() {
+  const response = await client.api.jobs.$get();
   if (!response.ok) {
     throw new Error('Failed to fetch jobs');
   }
@@ -10,8 +13,8 @@ export async function getJobs(): Promise<Job[]> {
   return response.json();
 }
 
-export async function getJob(id: Job['id']): Promise<Job> {
-  const response = await fetch(`/api/jobs/${id}`);
+export async function getJob(id: Job['id']) {
+  const response = await client.api.jobs[':id'].$get({ param: { id}});
 
   if (!response.ok) {
     throw new Error('Failed to fetch job');
@@ -20,11 +23,8 @@ export async function getJob(id: Job['id']): Promise<Job> {
   return response.json();
 }
 
-export async function addJob(job: Job): Promise<Job> {
-  const response = await fetch('/api/jobs', {
-    method: 'POST',
-    body: JSON.stringify(job),
-  })
+export async function addJob(job: NewJob) {
+  const response = await client.api.jobs.$post({ json: job });
 
   if (!response.ok) {
     throw new Error('Failed to add job');
@@ -33,11 +33,8 @@ export async function addJob(job: Job): Promise<Job> {
   return response.json();
 }
 
-export async function updateJob(updatedJob: Job): Promise<Job> {
-  const response = await fetch(`/api/jobs/${updatedJob.id}`, {
-    method: 'PUT',
-    body: JSON.stringify(updatedJob),
-  })
+export async function updateJob(updatedJob: Job) {
+  const response = await client.api.jobs[':id'].$put({ param: { id: updatedJob.id }, json: updatedJob });
 
   if (!response.ok) {
     throw new Error('Failed to update job');
@@ -46,10 +43,8 @@ export async function updateJob(updatedJob: Job): Promise<Job> {
   return response.json();
 }
 
-export async function deleteJob(id: Job['id']): Promise<void> { 
-  const response = await fetch(`/api/jobs/${id}`, {
-    method: 'DELETE',
-  })
+export async function deleteJob(id: Job['id']) {
+  const response = await client.api.jobs[':id'].$delete({ param: { id } });
 
   if (!response.ok) {
     throw new Error('Failed to delete job');
