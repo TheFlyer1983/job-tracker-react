@@ -7,6 +7,11 @@ import { useJobs } from '../../hooks/useJobs';
 import { Button } from '../inputs/button/Button';
 import { useModal } from '../../hooks/useModal';
 
+const inputClasses =
+  'w-full rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 shadow-sm transition-colors placeholder:text-gray-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/25';
+
+const labelClasses = 'mb-1 block text-sm font-medium text-gray-700';
+
 export default function AddJob() {
   const { addJob } = useJobs();
   const { closeModal } = useModal();
@@ -27,98 +32,130 @@ export default function AddJob() {
   };
   return (
     <div
-      className="fixed inset-0 z-100 flex items-center justify-center bg-gray-900/50"
+      className="fixed inset-0 z-100 flex items-center justify-center bg-gray-900/60 p-4 backdrop-blur-sm"
       onClick={() => closeModal()}
     >
       <div
-        className="flex w-lg flex-col items-center justify-center rounded-md bg-white p-4"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="add-job-title"
+        className="flex max-h-[90vh] w-full max-w-lg flex-col overflow-hidden rounded-xl bg-white shadow-2xl"
         onClick={(e) => e.stopPropagation()}
       >
-        <h1 className="text-2xl font-bold">Add Job</h1>
-        <form onSubmit={handleSubmit}>
-          <div className="flex flex-col gap-2">
-            <div className="flex flex-row items-center justify-between gap-2">
-              <label htmlFor="title">Title</label>
+        <div className="border-b border-gray-200 px-6 py-4">
+          <h1 id="add-job-title" className="text-xl font-bold text-gray-900">
+            Add Job
+          </h1>
+          <p className="mt-0.5 text-sm text-gray-500">
+            Track a new job application.
+          </p>
+        </div>
+        <form onSubmit={handleSubmit} className="flex min-h-0 flex-col">
+          <div className="grid min-h-0 grid-cols-1 gap-4 overflow-y-auto px-6 py-4 sm:grid-cols-2">
+            <div className="sm:col-span-2">
+              <label htmlFor="title" className={labelClasses}>
+                Title
+              </label>
               <input
                 type="text"
                 id="title"
                 name="title"
-                className="rounded-md border border-gray-300 p-2"
+                placeholder="e.g. Frontend Developer"
+                className={inputClasses}
                 value={job.title}
                 onChange={(e) => setJob({ ...job, title: e.target.value })}
               />
             </div>
-            <div className="flex flex-row items-center justify-between gap-2">
-              <label htmlFor="company">Company</label>
+            <div>
+              <label htmlFor="company" className={labelClasses}>
+                Company
+              </label>
               <input
                 type="text"
                 id="company"
                 name="company"
-                className="rounded-md border border-gray-300 p-2"
+                placeholder="e.g. Acme Ltd"
+                className={inputClasses}
                 value={job.company}
                 onChange={(e) => setJob({ ...job, company: e.target.value })}
               />
             </div>
-            <div className="flex flex-row items-center justify-between gap-2">
-              <label htmlFor="location">Location</label>
+            <div>
+              <label htmlFor="location" className={labelClasses}>
+                Location
+              </label>
               <input
                 type="text"
                 id="location"
                 name="location"
-                className="rounded-md border border-gray-300 p-2"
+                placeholder="e.g. Remote, London"
+                className={inputClasses}
                 value={job.location ?? ''}
                 onChange={(e) => setJob({ ...job, location: e.target.value })}
               />
             </div>
-            <div className="flex flex-row items-center justify-between gap-2">
-              <label htmlFor="salary">Salary</label>
+            <div>
+              <label htmlFor="salary" className={labelClasses}>
+                Salary
+              </label>
               <input
                 type="text"
                 id="salary"
                 name="salary"
-                className="rounded-md border border-gray-300 p-2"
+                placeholder="e.g. £45,000"
+                className={inputClasses}
                 value={job.salary ?? ''}
                 onChange={(e) => setJob({ ...job, salary: e.target.value })}
               />
             </div>
-            <div className="flex flex-row items-center justify-between gap-2">
-              <label htmlFor="url">URL</label>
-              <input
-                type="url"
-                id="url"
-                name="url"
-                className="rounded-md border border-gray-300 p-2"
-                value={job.url ?? ''}
-                onChange={(e) => setJob({ ...job, url: e.target.value })}
-              />
-            </div>
-            <div className="flex flex-row items-center justify-between gap-2">
-              <label htmlFor="description">Description</label>
-              <textarea
-                id="description"
-                name="description"
-                className="rounded-md border border-gray-300 p-2"
-                value={job.notes ?? ''}
-                onChange={(e) => setJob({ ...job, notes: e.target.value })}
-              />
-            </div>
-            <div className="flex flex-row items-center justify-between gap-2">
-              <label htmlFor="status">Status</label>
+            <div>
+              <label htmlFor="status" className={labelClasses}>
+                Status
+              </label>
               <SelectDropdown
                 options={Array.from(jobStatuses)}
                 value={job.status ?? ''}
                 setValue={(value) => setJob({ ...job, status: value as JobStatus })}
+                className="w-full text-sm"
+              />
+            </div>
+            <div className="sm:col-span-2">
+              <label htmlFor="url" className={labelClasses}>
+                URL
+              </label>
+              <input
+                type="url"
+                id="url"
+                name="url"
+                placeholder="https://..."
+                className={inputClasses}
+                value={job.url ?? ''}
+                onChange={(e) => setJob({ ...job, url: e.target.value })}
+              />
+            </div>
+            <div className="sm:col-span-2">
+              <label htmlFor="description" className={labelClasses}>
+                Description
+              </label>
+              <textarea
+                id="description"
+                name="description"
+                rows={3}
+                placeholder="Notes about the role..."
+                className={`${inputClasses} resize-y`}
+                value={job.notes ?? ''}
+                onChange={(e) => setJob({ ...job, notes: e.target.value })}
               />
             </div>
           </div>
-          <div className="flex flex-row items-center justify-between gap-2 pt-4">
-            <Button type="submit" label="Add Job" variant="primary" />
+          <div className="flex flex-col-reverse gap-2 border-t border-gray-200 bg-gray-50 px-6 py-4 sm:flex-row sm:justify-end">
             <Button
               variant="danger"
               type="button"
               onClick={() => closeModal()}
               label="Cancel"
             />
+            <Button type="submit" label="Add Job" variant="primary" />
           </div>
         </form>
       </div>

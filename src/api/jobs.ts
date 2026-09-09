@@ -2,10 +2,10 @@ import type { Job, NewJob } from '../db/schema';
 import { hc } from 'hono/client';
 import type { AppType } from './app';
 
-const client = hc<AppType>(process.env.BASE_API_URL!);
+const client = hc<AppType>('/');
 
 export async function getJobs() {
-  const response = await client.api.jobs.$get(); //(`/api/jobs`);
+  const response = await client.api.jobs.$get();
   if (!response.ok) {
     throw new Error('Failed to fetch jobs');
   }
