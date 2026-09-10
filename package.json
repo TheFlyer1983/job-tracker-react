@@ -18,7 +18,8 @@
     "db:drop": "drizzle-kit reset",
     "db:migrate": "drizzle-kit migrate",
     "db:generate": "drizzle-kit generate",
-    "db:reset": "pnpm db:drop && pnpm db:migrate && pnpm db:seed"
+    "db:reset": "pnpm db:drop && pnpm db:migrate && pnpm db:seed",
+    "test": "vitest"
   },
   "dependencies": {
     "@hono/node-server": "^2.1.1",

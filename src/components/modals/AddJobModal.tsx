@@ -21,7 +21,7 @@ export default function AddJob() {
     title: '',
     location: '',
     salary: '',
-    status: '',
+    status: 'Saved',
     url: '',
     notes: ''
   });
@@ -32,6 +32,7 @@ export default function AddJob() {
   };
   return (
     <div
+      data-testid="modal-backdrop"
       className="fixed inset-0 z-100 flex items-center justify-center bg-gray-900/60 p-4 backdrop-blur-sm"
       onClick={() => closeModal()}
     >
@@ -111,6 +112,7 @@ export default function AddJob() {
                 Status
               </label>
               <SelectDropdown
+                id="status"
                 options={Array.from(jobStatuses)}
                 value={job.status ?? ''}
                 setValue={(value) => setJob({ ...job, status: value as JobStatus })}

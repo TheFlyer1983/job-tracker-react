@@ -1,4 +1,5 @@
 type SelectDropdownProps = {
+  id: string;
   options: string[];
   value: string;
   setValue: (status: string) => void;
@@ -6,6 +7,7 @@ type SelectDropdownProps = {
 };
 
 export default function SelectDropdown({
+  id,
   options,
   value,
   setValue,
@@ -13,6 +15,7 @@ export default function SelectDropdown({
 }: SelectDropdownProps) {
   return (
     <select
+      id={id}
       value={value}
       className={`rounded-md border border-gray-300 p-2 ${className ?? ''}`}
       onChange={(e) => setValue(e.target.value)}

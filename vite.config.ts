@@ -47,6 +47,13 @@ export default defineConfig(({ mode }) => {
               ]
             }
           }
+        },
+        {
+          test: {
+            name: 'unit',
+            environment: 'jsdom',
+            setupFiles: './src/test/setup.ts'
+          }
         }
       ]
     }
