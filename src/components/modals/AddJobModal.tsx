@@ -12,7 +12,7 @@ const inputClasses =
 
 const labelClasses = 'mb-1 block text-sm font-medium text-gray-700';
 
-export default function AddJob() {
+export default function AddJobModal() {
   const { addJob } = useJobs();
   const { closeModal } = useModal();
 
