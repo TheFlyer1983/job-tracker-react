@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import { describe, expect, it, vi, beforeEach } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import ModalRenderer from './ModalRenderer';
 import { MemoryRouter } from 'react-router';
 
@@ -43,7 +43,7 @@ describe('ModalRenderer', () => {
       mockModal.mockReturnValue(null);
 
       renderModalRenderer();
-      
+
       expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
     });
   });
