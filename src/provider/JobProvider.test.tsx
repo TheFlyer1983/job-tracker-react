@@ -53,17 +53,16 @@ vi.mock('../api/jobs', () => ({
   deleteJob: deleteJobMock
 }));
 
-function createQueryClient() {
+function createQueryClient(staleTime: number = 30_000) {
   return new QueryClient({
     defaultOptions: {
       queries: {
-        retry: false
+        retry: false,
+        staleTime
       }
     }
   });
 }
-
-
 
 function TestConsumer({ onDeleteSuccess }: { onDeleteSuccess?: () => void }) {
   const { jobs, isLoading, addJob, updateJob, deleteJob } = useJobs();
@@ -423,8 +422,121 @@ describe('JobProvider', () => {
     const button = screen.getByRole('button', { name: 'Delete Job' });
     await user.click(button);
 
-    await waitFor(() =>
-      expect(onDeleteSuccessMock).toHaveBeenCalled()
-    );
+    await waitFor(() => expect(onDeleteSuccessMock).toHaveBeenCalled());
   });
+
+  it('should use the cached jobs when multiple providers request the same query', async () => {
+    const queryClient = createQueryClient();
+    getJobsMock.mockResolvedValue(mockJobs);
+
+    render(
+      <QueryClientProvider client={queryClient}>
+        <JobProvider>
+          <TestConsumer />
+        </JobProvider>
+
+        <JobProvider>
+          <TestConsumer />
+        </JobProvider>
+      </QueryClientProvider>
+    );
+
+    expect(getJobsMock).toHaveBeenCalledTimes(1);
+  });
+
+  it(`'addJob()' refetches the jobs query after invalidation`, async () => {
+    const user = userEvent.setup();
+
+    const updatedJobs: Job[] = [
+      ...mockJobs,
+      {
+        id: '33333333-3333-3333-3333-333333333333',
+        company: 'Company 3',
+        title: 'Backend Developer',
+        location: 'Manchester',
+        salary: '£50,000',
+        status: 'Applied',
+        url: 'https://example.com/job-3',
+        notes: 'Some notes'
+      }
+    ];
+
+    const queryClient = createQueryClient();
+    getJobsMock.mockResolvedValueOnce(mockJobs).mockResolvedValueOnce(updatedJobs);
+    addJobMock.mockResolvedValue(undefined);
+
+    render(
+      <QueryClientProvider client={queryClient}>
+        <JobProvider>
+          <TestConsumer />
+        </JobProvider>
+      </QueryClientProvider>
+    );
+
+    expect(await screen.findByText('2 jobs')).toBeInTheDocument();
+
+    const button = screen.getByRole('button', { name: 'Add Job' });
+    await user.click(button);
+
+    expect(await screen.findByText('3 jobs')).toBeInTheDocument();
+    expect(getJobsMock).toHaveBeenCalledTimes(2);
+  });
+
+  it(`'while the query is not stale, re-rendering the component does not refetch the jobs query`, async () => {
+    const queryClient = createQueryClient();
+    getJobsMock.mockResolvedValueOnce(mockJobs);
+
+    const { rerender } = render(
+      <QueryClientProvider client={queryClient}>
+        <JobProvider>
+          <TestConsumer />
+        </JobProvider>
+      </QueryClientProvider>
+    );
+
+    expect(await screen.findByText('2 jobs')).toBeInTheDocument();
+
+    rerender(
+      <QueryClientProvider client={queryClient}>
+        <JobProvider>
+          <TestConsumer />
+        </JobProvider>
+      </QueryClientProvider>
+    );
+
+    expect(await screen.findByText('2 jobs')).toBeInTheDocument();
+    expect(getJobsMock).toHaveBeenCalledTimes(1);
+  });
+
+  it(`while the query is stale, remounting the component refetches the jobs query`, async () => { 
+    const queryClient = createQueryClient(0);
+    getJobsMock.mockResolvedValueOnce(mockJobs).mockResolvedValueOnce(mockJobs);
+
+    const { unmount } = render(
+      <QueryClientProvider client={queryClient}>
+        <JobProvider>
+          <TestConsumer />
+        </JobProvider>
+      </QueryClientProvider>
+    );
+
+    expect(await screen.findByText('2 jobs')).toBeInTheDocument();
+
+    vi.useFakeTimers();
+    vi.advanceTimersByTime(30_000);
+
+    unmount()
+
+    render(
+      <QueryClientProvider client={queryClient}>
+        <JobProvider>
+          <TestConsumer />
+        </JobProvider>
+      </QueryClientProvider>
+    );
+
+    expect(getJobsMock).toHaveBeenCalledTimes(2);
+
+    vi.useRealTimers();
+  })
 });
