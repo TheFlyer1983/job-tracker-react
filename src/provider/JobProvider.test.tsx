@@ -508,7 +508,7 @@ describe('JobProvider', () => {
     expect(getJobsMock).toHaveBeenCalledTimes(1);
   });
 
-  it(`while the query is stale, remounting the component refetches the jobs query`, async () => { 
+  it(`while the query is stale, remounting the component refetches the jobs query`, async () => {
     const queryClient = createQueryClient(0);
     getJobsMock.mockResolvedValueOnce(mockJobs).mockResolvedValueOnce(mockJobs);
 
@@ -525,7 +525,7 @@ describe('JobProvider', () => {
     vi.useFakeTimers();
     vi.advanceTimersByTime(30_000);
 
-    unmount()
+    unmount();
 
     render(
       <QueryClientProvider client={queryClient}>
@@ -538,5 +538,5 @@ describe('JobProvider', () => {
     expect(getJobsMock).toHaveBeenCalledTimes(2);
 
     vi.useRealTimers();
-  })
+  });
 });

@@ -26,7 +26,10 @@ export default function JobCard({ job }: JobCardProps) {
 
   return (
     <>
-      <div data-testid="job-card" className={`${statusBgColour} rounded-lg border p-4 text-black shadow-md`}>
+      <div
+        data-testid="job-card"
+        className={`${statusBgColour} rounded-lg border p-4 text-black shadow-md`}
+      >
         <div className="text-lg font-bold">{job.title}</div>
         <hr />
         <div className="flex justify-between text-sm text-gray-500">

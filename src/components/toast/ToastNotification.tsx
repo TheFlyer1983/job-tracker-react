@@ -38,7 +38,7 @@ export default function ToastNotification({
       <div className="flex items-center justify-between">
         <span>{notification.message}</span>
 
-        <button onClick={() => removeNotification(notification.id)} className="text-white">
+        <button onClick={() => removeNotification(notification.id)} className="text-white" aria-label="Close notification">
           <span className="h-4 w-4 cursor-pointer">x</span>
         </button>
       </div>
