@@ -6,6 +6,7 @@ const client = hc<AppType>('/');
 
 export async function getJobs() {
   const response = await client.api.jobs.$get();
+
   if (!response.ok) {
     throw new Error('Failed to fetch jobs');
   }
