@@ -30,6 +30,7 @@ storybook-static
 
 # Environment variables
 .env
+.env.test
 
 # Test coverage
 coverage

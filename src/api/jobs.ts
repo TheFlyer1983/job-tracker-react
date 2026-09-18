@@ -35,9 +35,10 @@ export async function addJob(job: NewJob) {
 }
 
 export async function updateJob(updatedJob: Job) {
+  const { id, ...payload } = updatedJob;
   const response = await client.api.jobs[':id'].$put({
-    param: { id: updatedJob.id },
-    json: updatedJob
+    param: { id },
+    json: payload
   });
 
   if (!response.ok) {

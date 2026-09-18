@@ -2,8 +2,8 @@ import { Hono } from 'hono';
 import { db } from '../../db';
 import { jobsTable } from '../../db/schema';
 import { eq } from 'drizzle-orm';
-import type { Job } from '../../db/schema';
-import { validator } from 'hono/validator';
+import { createJobSchema, updateJobSchema } from '../../validation/jobs';
+import { zValidator } from '@hono/zod-validator';
 
 const jobsRoutes = new Hono()
   .get('/', async (c) => {
@@ -16,10 +16,14 @@ const jobsRoutes = new Hono()
 
     const result = await db.select().from(jobsTable).where(eq(jobsTable.id, id));
 
+    if (!result[0]) {
+      return c.json({ error: 'Job not found' }, 404);
+    }
+
     return c.json(result[0], 200);
   })
-  .post('/', async (c) => {
-    const body = await c.req.json();
+  .post('/', zValidator('json', createJobSchema), async (c) => {
+    const body = c.req.valid('json');
 
     const result = await db.insert(jobsTable).values(body).returning();
 
@@ -27,12 +31,16 @@ const jobsRoutes = new Hono()
   })
   .put(
     '/:id',
-    validator('json', (value) => value as Job),
+    zValidator('json', updateJobSchema),
     async (c) => {
       const { id } = c.req.param();
-      const body = await c.req.json<Job>();
+      const body = c.req.valid('json');
 
       const result = await db.update(jobsTable).set(body).where(eq(jobsTable.id, id)).returning();
+
+      if (!result[0]) {
+        return c.json({ error: 'Job not found' }, 404);
+      }
 
       return c.json(result[0], 200);
     }
@@ -40,7 +48,11 @@ const jobsRoutes = new Hono()
   .delete('/:id', async (c) => {
     const { id } = c.req.param();
 
-    await db.delete(jobsTable).where(eq(jobsTable.id, id));
+    const result = await db.delete(jobsTable).where(eq(jobsTable.id, id)).returning();
+
+    if (!result[0]) {
+      return c.json({ error: 'Job not found' }, 404);
+    }
 
     return c.body(null, 204);
   });

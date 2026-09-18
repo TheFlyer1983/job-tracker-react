@@ -24,6 +24,12 @@ export default defineConfig(({ mode }) => {
       }
     },
     test: {
+      coverage: {
+        provider: 'v8',
+        reporter: ['text', 'json', 'html'],
+        include: ['src/**/*.{ts,tsx}'],
+        exclude: ['**/node_modules/**']
+      },
       projects: [
         {
           extends: true,
@@ -52,7 +58,17 @@ export default defineConfig(({ mode }) => {
           test: {
             name: 'unit',
             environment: 'jsdom',
-            setupFiles: './src/test/setup.ts'
+            setupFiles: './src/test/setup.ts',
+            include: ['src/**/*.{test,spec}.{ts,tsx}'],
+            exclude: ['src/api/__tests__/*.test.ts', '**/node_modules/**']
+          }
+        },
+        {
+          test: {
+            name: 'api',
+            environment: 'node',
+            include: ['src/api/__tests__/*.test.ts'],
+            setupFiles: './src/test/api.setup.ts'
           }
         }
       ]
