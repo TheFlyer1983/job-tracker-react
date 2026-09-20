@@ -1,20 +1,36 @@
-import type { Preview } from '@storybook/react-vite'
+import type { Preview } from '@storybook/react-vite';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { mswLoader } from 'msw-storybook-addon/csf3';
 import { handlers } from '../src/mocks/handlers';
 import '../src/index.css';
 
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: false
+    }
+  }
+});
+
 const preview: Preview = {
+  decorators: [
+    (Story) => (
+      <QueryClientProvider client={queryClient}>
+        <Story />
+      </QueryClientProvider>
+    )
+  ],
   loaders: [mswLoader()],
 
   parameters: {
     msw: {
-      handlers,
+      handlers
     },
     controls: {
       matchers: {
-       color: /(background|color)$/i,
-       date: /Date$/i,
-      },
+        color: /(background|color)$/i,
+        date: /Date$/i
+      }
     },
 
     a11y: {
@@ -23,7 +39,7 @@ const preview: Preview = {
       // 'off' - skip a11y checks entirely
       test: 'todo'
     }
-  },
+  }
 };
 
 export default preview;

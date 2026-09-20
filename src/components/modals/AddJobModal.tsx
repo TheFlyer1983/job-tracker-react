@@ -12,7 +12,7 @@ const inputClasses =
 
 const labelClasses = 'mb-1 block text-sm font-medium text-gray-700';
 
-export default function AddJob() {
+export default function AddJobModal() {
   const { addJob } = useJobs();
   const { closeModal } = useModal();
 
@@ -21,7 +21,7 @@ export default function AddJob() {
     title: '',
     location: '',
     salary: '',
-    status: '',
+    status: 'Saved',
     url: '',
     notes: ''
   });
@@ -32,6 +32,7 @@ export default function AddJob() {
   };
   return (
     <div
+      data-testid="modal-backdrop"
       className="fixed inset-0 z-100 flex items-center justify-center bg-gray-900/60 p-4 backdrop-blur-sm"
       onClick={() => closeModal()}
     >
@@ -46,9 +47,7 @@ export default function AddJob() {
           <h1 id="add-job-title" className="text-xl font-bold text-gray-900">
             Add Job
           </h1>
-          <p className="mt-0.5 text-sm text-gray-500">
-            Track a new job application.
-          </p>
+          <p className="mt-0.5 text-sm text-gray-500">Track a new job application.</p>
         </div>
         <form onSubmit={handleSubmit} className="flex min-h-0 flex-col">
           <div className="grid min-h-0 grid-cols-1 gap-4 overflow-y-auto px-6 py-4 sm:grid-cols-2">
@@ -113,6 +112,7 @@ export default function AddJob() {
                 Status
               </label>
               <SelectDropdown
+                id="status"
                 options={Array.from(jobStatuses)}
                 value={job.status ?? ''}
                 setValue={(value) => setJob({ ...job, status: value as JobStatus })}
@@ -149,12 +149,7 @@ export default function AddJob() {
             </div>
           </div>
           <div className="flex flex-col-reverse gap-2 border-t border-gray-200 bg-gray-50 px-6 py-4 sm:flex-row sm:justify-end">
-            <Button
-              variant="danger"
-              type="button"
-              onClick={() => closeModal()}
-              label="Cancel"
-            />
+            <Button variant="danger" type="button" onClick={() => closeModal()} label="Cancel" />
             <Button type="submit" label="Add Job" variant="primary" />
           </div>
         </form>

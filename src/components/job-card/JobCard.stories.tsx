@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import type { Job } from '../../db/schema';
 import { MemoryRouter } from 'react-router';
 import { JobProvider } from '../../provider/JobProvider';
+import { ModalProvider } from '../../provider/ModalProvider';
 import { NotificationProvider } from '../../provider/NotificationProvider';
 
 import JobCard from './JobCard';
@@ -12,7 +13,7 @@ const job: Job = {
   title: 'Title',
   location: 'Location',
   salary: 'Salary',
-  status: 'Status',
+  status: 'Saved',
   url: 'URL',
   notes: 'Notes'
 };
@@ -28,9 +29,11 @@ const meta = {
     (Story) => (
       <MemoryRouter>
         <NotificationProvider>
-          <JobProvider>
-            <Story />
-          </JobProvider>
+          <ModalProvider>
+            <JobProvider>
+              <Story />
+            </JobProvider>
+          </ModalProvider>
         </NotificationProvider>
       </MemoryRouter>
     )

@@ -11,11 +11,11 @@ const meta = {
   },
   tags: ['autodocs'],
   argTypes: {
-    options: { control: 'select', options: [...jobStatuses]}
+    options: { control: 'select', options: [...jobStatuses] }
   },
   args: {
     value: '',
-    setValue: () => { }
+    setValue: () => {}
   }
 } satisfies Meta<typeof SelectDropdown>;
 

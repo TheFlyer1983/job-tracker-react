@@ -15,7 +15,7 @@ export default function SearchBox({
   searchText,
   setSearchText,
   statusFilter,
-  setStatusFilter,
+  setStatusFilter
 }: SearchBoxProps) {
   const { openModal } = useModal();
 

@@ -44,9 +44,7 @@ export default function EditJobModal({ editableJob }: EditJobProps) {
           <h1 id="edit-job-title" className="text-xl font-bold text-gray-900">
             Edit Job
           </h1>
-          <p className="mt-0.5 text-sm text-gray-500">
-            Update the details of this application.
-          </p>
+          <p className="mt-0.5 text-sm text-gray-500">Update the details of this application.</p>
         </div>
         <form onSubmit={handleSubmit} className="flex min-h-0 flex-col">
           <div className="grid min-h-0 grid-cols-1 gap-4 overflow-y-auto px-6 py-4 sm:grid-cols-2">
@@ -147,12 +145,7 @@ export default function EditJobModal({ editableJob }: EditJobProps) {
             </div>
           </div>
           <div className="flex flex-col-reverse gap-2 border-t border-gray-200 bg-gray-50 px-6 py-4 sm:flex-row sm:justify-end">
-            <Button
-              variant="danger"
-              type="button"
-              onClick={() => closeModal()}
-              label="Cancel"
-            />
+            <Button variant="danger" type="button" onClick={() => closeModal()} label="Cancel" />
             <Button type="submit" label="Save Job" variant="primary" />
           </div>
         </form>

@@ -2,18 +2,10 @@
   "version": "8",
   "dialect": "postgres",
   "id": "cfb5298d-b1b9-429d-b7a0-30fead851ee0",
-  "prevIds": [
-    "00000000-0000-0000-0000-000000000000"
-  ],
+  "prevIds": ["00000000-0000-0000-0000-000000000000"],
   "ddl": [
     {
-      "values": [
-        "Saved",
-        "Applied",
-        "Interview",
-        "Offer",
-        "Rejected"
-      ],
+      "values": ["Saved", "Applied", "Interview", "Offer", "Rejected"],
       "name": "job_status",
       "entityType": "enums",
       "schema": "public"
@@ -129,9 +121,7 @@
       "table": "jobs"
     },
     {
-      "columns": [
-        "id"
-      ],
+      "columns": ["id"],
       "nameExplicit": false,
       "name": "jobs_pkey",
       "schema": "public",

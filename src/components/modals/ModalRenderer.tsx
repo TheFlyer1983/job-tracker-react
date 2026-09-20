@@ -1,13 +1,13 @@
 import { useModal } from '../../hooks/useModal';
 import { lazy, Suspense } from 'react';
 
+const AddJobModal = lazy(() => import('./AddJobModal'));
+const EditJobModal = lazy(() => import('./EditJobModal'));
+
 export default function ModalRenderer() {
   const { modal } = useModal();
 
   if (!modal) return null;
-
-  const AddJobModal = lazy(() => import('./AddJobModal'));
-  const EditJobModal = lazy(() => import('./EditJobModal'));
 
   return (
     <Suspense fallback={null}>

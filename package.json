@@ -18,10 +18,14 @@
     "db:drop": "drizzle-kit reset",
     "db:migrate": "drizzle-kit migrate",
     "db:generate": "drizzle-kit generate",
-    "db:reset": "pnpm db:drop && pnpm db:migrate && pnpm db:seed"
+    "db:reset": "pnpm db:drop && pnpm db:migrate && pnpm db:seed",
+    "db:migrate:test": "dotenv -e .env.test -- pnpm db:migrate",
+    "test": "vitest",
+    "test:coverage": "vitest run --coverage"
   },
   "dependencies": {
     "@hono/node-server": "^2.1.1",
+    "@hono/zod-validator": "^0.9.1",
     "@tailwindcss/vite": "^4.3.3",
     "@tanstack/react-query": "^5.102.8",
     "@tanstack/react-query-devtools": "^5.102.8",
@@ -33,7 +37,8 @@
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
     "react-router": "^8.3.0",
-    "tailwindcss": "^4.3.3"
+    "tailwindcss": "^4.3.3",
+    "zod": "^4.6.5"
   },
   "devDependencies": {
     "@chromatic-com/storybook": "latest",
@@ -42,6 +47,9 @@
     "@storybook/addon-mcp": "latest",
     "@storybook/addon-vitest": "^10.5.10",
     "@storybook/react-vite": "^10.5.10",
+    "@testing-library/jest-dom": "^7.0.1",
+    "@testing-library/react": "^16.3.3",
+    "@testing-library/user-event": "^14.6.7",
     "@types/node": "^24.13.3",
     "@types/pg": "^8.23.1",
     "@types/react": "^19.2.17",
@@ -49,7 +57,9 @@
     "@vitejs/plugin-react": "^6.0.4",
     "@vitest/browser-playwright": "latest",
     "@vitest/coverage-v8": "latest",
+    "dotenv-cli": "^11.0.0",
     "drizzle-kit": "1.0.0-rc.4",
+    "jsdom": "^30.0.1",
     "msw": "^2.15.0",
     "msw-storybook-addon": "^3.0.0",
     "oxlint": "^1.75.0",

@@ -6,6 +6,7 @@ const client = hc<AppType>('/');
 
 export async function getJobs() {
   const response = await client.api.jobs.$get();
+
   if (!response.ok) {
     throw new Error('Failed to fetch jobs');
   }
@@ -14,7 +15,7 @@ export async function getJobs() {
 }
 
 export async function getJob(id: Job['id']) {
-  const response = await client.api.jobs[':id'].$get({ param: { id}});
+  const response = await client.api.jobs[':id'].$get({ param: { id } });
 
   if (!response.ok) {
     throw new Error('Failed to fetch job');
@@ -34,7 +35,11 @@ export async function addJob(job: NewJob) {
 }
 
 export async function updateJob(updatedJob: Job) {
-  const response = await client.api.jobs[':id'].$put({ param: { id: updatedJob.id }, json: updatedJob });
+  const { id, ...payload } = updatedJob;
+  const response = await client.api.jobs[':id'].$put({
+    param: { id },
+    json: payload
+  });
 
   if (!response.ok) {
     throw new Error('Failed to update job');
