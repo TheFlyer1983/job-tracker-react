@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "api": "tsx src/api/index.ts",
+    "api": "dotenv -e .env -- tsx src/api/index.ts",
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "oxlint",

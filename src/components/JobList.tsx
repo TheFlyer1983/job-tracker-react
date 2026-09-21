@@ -18,12 +18,10 @@ export default function JobList({ jobs }: JobListProps) {
   }
 
   return (
-    <>
-      <div className="flex w-max flex-row gap-4">
-        {jobStatuses.map((status) => (
-          <JobColumn status={status} jobs={columns[status] ?? []} key={status} />
-        ))}
-      </div>
-    </>
+    <div className="flex w-max flex-row gap-4">
+      {jobStatuses.map((status) => (
+        <JobColumn status={status} jobs={columns[status] ?? []} key={status} />
+      ))}
+    </div>
   );
 }

@@ -22,14 +22,18 @@ export default function SearchBox({
   return (
     <div className="mb-4 flex flex-row items-center justify-between gap-4">
       <div className="flex flex-row gap-4">
+        <label htmlFor="search-jobs" className="sr-only">Search Jobs</label>
         <input
-          type="text"
+          id="search-jobs"
+          type="search"
           placeholder="Search Jobs"
           className="rounded-md border border-gray-300 p-2"
           value={searchText}
           onChange={(e) => setSearchText(e.target.value)}
         />
         <SelectDropdown
+          label="Filter by status"
+          id="status-filter"
           options={Array.from(jobStatuses)}
           value={statusFilter}
           setValue={(value) => setStatusFilter(value as JobStatus | '')}

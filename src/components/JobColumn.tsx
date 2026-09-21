@@ -9,14 +9,20 @@ type JobColumnProps = {
 
 export default function JobColumn({ status, jobs }: JobColumnProps) {
   return (
-    <div
-      className="flex shrink-0 flex-col gap-4 rounded bg-white p-4 max-md:w-72 lg:w-96"
-      key={status}
-    >
+    <section className="flex shrink-0 flex-col gap-4 rounded bg-white p-4 max-md:w-72 lg:w-96">
       <h2 className="text-center text-2xl font-bold text-black">{status}</h2>
-      {jobs.map((job) => (
-        <JobCard job={job} key={job.id} />
-      ))}
-    </div>
+
+      {jobs.length > 0 ? (
+        <ul className="flex flex-col gap-4">
+          {jobs.map((job) => (
+            <li key={job.id}>
+              <JobCard job={job} />
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p className="text-center text-gray-500">No jobs found</p>
+      )}
+    </section>
   );
 }

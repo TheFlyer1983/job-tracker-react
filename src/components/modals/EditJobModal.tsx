@@ -4,7 +4,7 @@ import SelectDropdown from '../inputs/select/SelectDropdown';
 import { jobStatuses } from '../../constants/jobs';
 import type { JobStatus } from '../../constants/jobs';
 import { Button } from '../inputs/button/Button';
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useModal } from '../../hooks/useModal';
 
 const inputClasses =
@@ -28,12 +28,57 @@ export default function EditJobModal({ editableJob }: EditJobProps) {
     closeModal();
   };
 
+  const titleInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    titleInputRef.current?.focus();
+  }, []);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        closeModal();
+        return;
+      }
+
+      if (e.key !== 'Tab') {
+        return;
+      }
+
+      const focusableElements = dialogRef.current?.querySelectorAll<HTMLElement>(
+        'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled])'
+      );
+
+      if (!focusableElements?.length) return;
+
+      const firstElement = focusableElements[0];
+      const lastElement = focusableElements[focusableElements.length - 1];
+
+      if (e.shiftKey && document.activeElement === firstElement) {
+        e.preventDefault();
+        lastElement.focus();
+      } else if (!e.shiftKey && document.activeElement === lastElement) {
+        e.preventDefault();
+        firstElement.focus();
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [closeModal]);
+
+  const dialogRef = useRef<HTMLDivElement>(null);
+
   return (
     <div
       className="fixed inset-0 z-100 flex items-center justify-center bg-gray-900/60 p-4 backdrop-blur-sm"
       onClick={() => closeModal()}
     >
       <div
+        ref={dialogRef}
         role="dialog"
         aria-modal="true"
         aria-labelledby="edit-job-title"
@@ -41,9 +86,9 @@ export default function EditJobModal({ editableJob }: EditJobProps) {
         onClick={(e) => e.stopPropagation()}
       >
         <div className="border-b border-gray-200 px-6 py-4">
-          <h1 id="edit-job-title" className="text-xl font-bold text-gray-900">
+          <h2 id="edit-job-title" className="text-xl font-bold text-gray-900">
             Edit Job
-          </h1>
+          </h2>
           <p className="mt-0.5 text-sm text-gray-500">Update the details of this application.</p>
         </div>
         <form onSubmit={handleSubmit} className="flex min-h-0 flex-col">
@@ -53,6 +98,7 @@ export default function EditJobModal({ editableJob }: EditJobProps) {
                 Title
               </label>
               <input
+                ref={titleInputRef}
                 type="text"
                 id="title"
                 name="title"
@@ -105,14 +151,14 @@ export default function EditJobModal({ editableJob }: EditJobProps) {
               />
             </div>
             <div>
-              <label htmlFor="status" className={labelClasses}>
-                Status
-              </label>
               <SelectDropdown
+                id="status"
+                label="Status"
                 options={Array.from(jobStatuses)}
                 value={job.status ?? ''}
                 setValue={(value) => setJob({ ...job, status: value as JobStatus })}
                 className="w-full text-sm"
+                labelClassName={labelClasses}
               />
             </div>
             <div className="sm:col-span-2">

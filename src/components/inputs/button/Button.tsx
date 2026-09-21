@@ -48,7 +48,7 @@ export function Button(props: ButtonProps) {
   }
 
   return (
-    <button className={className} onClick={props.onClick} type={props.type}>
+    <button className={className} onClick={props.onClick} type={props.type ?? 'button'}>
       {props.label}
     </button>
   );

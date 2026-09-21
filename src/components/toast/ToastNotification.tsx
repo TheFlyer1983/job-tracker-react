@@ -29,7 +29,6 @@ export default function ToastNotification({
 
   return (
     <div
-      key={notification.id}
       role={notification.type === 'error' ? 'alert' : 'status'}
       className={`${typeClasses[notification.type]} mb-4 flex w-full flex-col rounded-md p-4`}
     >

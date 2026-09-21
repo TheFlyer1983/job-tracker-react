@@ -16,7 +16,7 @@ export default function JobTracker() {
     .filter((job) => job.title.toLowerCase().includes(searchText.toLowerCase()));
 
   return (
-    <>
+    <main className="w-full overflow-x-auto">
       <AppHeader />
       <SearchBox
         searchText={searchText}
@@ -25,9 +25,7 @@ export default function JobTracker() {
         setStatusFilter={setStatusFilter}
       />
 
-      <div className="w-full overflow-x-auto">
-        <JobList jobs={filteredJobs} />
-      </div>
-    </>
+      <JobList jobs={filteredJobs} />
+    </main>
   );
 }

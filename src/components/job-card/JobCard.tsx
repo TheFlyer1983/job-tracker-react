@@ -25,12 +25,11 @@ export default function JobCard({ job }: JobCardProps) {
             : 'bg-gray-200';
 
   return (
-    <>
-      <div
+      <article
         data-testid="job-card"
         className={`${statusBgColour} rounded-lg border p-4 text-black shadow-md`}
       >
-        <div className="text-lg font-bold">{job.title}</div>
+        <h3 className="text-lg font-bold">{job.title}</h3>
         <hr />
         <div className="flex justify-between text-sm text-gray-500">
           <span className="font-bold">Company:</span>
@@ -77,7 +76,6 @@ export default function JobCard({ job }: JobCardProps) {
 
           <Button variant="outline" label="Delete Job" onClick={() => deleteJob(job.id)} />
         </div>
-      </div>
-    </>
+      </article>
   );
 }
