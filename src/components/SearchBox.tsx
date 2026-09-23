@@ -27,7 +27,7 @@ export default function SearchBox({
           id="search-jobs"
           type="search"
           placeholder="Search Jobs"
-          className="rounded-md border border-gray-300 p-2"
+          className="rounded-md border border-gray-300 p-2 placeholder:text-gray-400"
           value={searchText}
           onChange={(e) => setSearchText(e.target.value)}
         />

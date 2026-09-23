@@ -17,10 +17,10 @@ type ButtonProps =
     });
 
 const variantClasses = {
-  primary: 'bg-blue-500 text-white hover:bg-blue-700',
+  primary: 'bg-blue-600 text-white hover:bg-blue-700',
   secondary: 'bg-gray-200 text-gray-900 hover:bg-gray-300',
-  outline: 'border border-gray-500 text-gray-600 hover:bg-gray-600 hover:text-white',
-  danger: 'bg-red-400 text-white hover:bg-red-700'
+  outline: 'border border-gray-500 text-gray-700 hover:bg-gray-600 hover:text-white',
+  danger: 'bg-red-600 text-white hover:bg-red-700'
 } satisfies Record<NonNullable<ButtonProps['variant']>, string>;
 
 const sizeClasses = {
@@ -41,14 +41,21 @@ export function Button(props: ButtonProps) {
 
   if (props.type === 'link') {
     return (
-      <NavLink className={className} to={props.to}>
+      <NavLink className={[className, 'focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 no-underline'].join(' ')} to={props.to}>
         {props.label}
       </NavLink>
     );
   }
 
   return (
-    <button className={className} onClick={props.onClick} type={props.type ?? 'button'}>
+    <button
+      className={[
+        className,
+        'focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2'
+      ].join(' ')}
+      onClick={props.onClick}
+      type={props.type ?? 'button'}
+    >
       {props.label}
     </button>
   );

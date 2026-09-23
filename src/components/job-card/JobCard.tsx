@@ -31,41 +31,41 @@ export default function JobCard({ job }: JobCardProps) {
       >
         <h3 className="text-lg font-bold">{job.title}</h3>
         <hr />
-        <div className="flex justify-between text-sm text-gray-500">
+        <div className="flex justify-between text-sm text-gray-700">
           <span className="font-bold">Company:</span>
           <span>{job.company}</span>
         </div>
         <hr />
-        <div className="flex justify-between text-sm text-gray-500">
+        <div className="flex justify-between text-sm text-gray-700">
           <span className="font-bold">Location:</span>
           <span>{job.location}</span>
         </div>
         <hr />
-        <div className="flex justify-between text-sm text-gray-500">
+        <div className="flex justify-between text-sm text-gray-700">
           <span className="font-bold">Salary:</span>
           <span>{job.salary}</span>
         </div>
         <hr />
-        <div className="flex justify-between text-sm text-gray-500">
+        <div className="flex justify-between text-sm text-gray-700">
           <span className="font-bold">Status:</span>
           <span>{job.status}</span>
         </div>
         <hr />
-        <div className="flex justify-between text-sm text-gray-500">
+        <div className="flex justify-between text-sm text-gray-700">
           <span className="font-bold">URL:</span>
           {job.url && (
-            <a href={job.url} className="underline">
+            <a href={job.url} className="underline min-w-0 wrap-anywhere">
               {job.url}
             </a>
           )}
         </div>
         <hr />
-        <div className="flex justify-between gap-x-4 text-sm text-gray-500">
+        <div className="flex justify-between gap-x-4 text-sm text-gray-700">
           <span className="font-bold">Notes:</span>
-          <span>{job.notes}</span>
+          <span className="min-w-0 flex-1 break-anywhere text-right">{job.notes}</span>
         </div>
         <hr />
-        <div className="my-4 flex justify-around gap-x-4 text-sm text-gray-500">
+        <div className="my-4 flex justify-around gap-x-4 text-sm text-gray-700">
           <Button type="link" to={`/jobs/${job.id}`} label="View Job" variant="outline" />
 
           <Button

@@ -9,7 +9,7 @@ type JobColumnProps = {
 
 export default function JobColumn({ status, jobs }: JobColumnProps) {
   return (
-    <section className="flex shrink-0 flex-col gap-4 rounded bg-white p-4 max-md:w-72 lg:w-96">
+    <section className="flex shrink-0 flex-col gap-4 rounded bg-white p-4 w-72 lg:w-96">
       <h2 className="text-center text-2xl font-bold text-black">{status}</h2>
 
       {jobs.length > 0 ? (

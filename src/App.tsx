@@ -16,7 +16,6 @@ export default function App() {
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
         <NotificationProvider>
-          <ToastContainer />
           <ModalProvider>
             <JobProvider>
               <Routes>
@@ -27,6 +26,7 @@ export default function App() {
               <ModalRenderer />
             </JobProvider>
           </ModalProvider>
+          <ToastContainer />
         </NotificationProvider>
       </BrowserRouter>
 

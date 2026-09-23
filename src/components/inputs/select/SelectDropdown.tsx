@@ -25,7 +25,7 @@ export default function SelectDropdown({
       <select
         id={id}
         value={value}
-        className={`rounded-md border border-gray-300 p-2 ${className ?? ''}`}
+        className={`rounded-md border border-gray-300 p-2 text-gray-400 ${className ?? ''}`}
         onChange={(e) => setValue(e.target.value)}
       >
         <option value="">All</option>
