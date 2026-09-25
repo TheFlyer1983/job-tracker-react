@@ -2,10 +2,10 @@ import type { AppNotification } from '../../provider/NotificationProvider';
 import { useEffect } from 'react';
 
 const typeClasses = {
-  error: 'bg-red-500 text-white',
-  success: 'bg-green-500 text-white',
-  info: 'bg-blue-500 text-white',
-  warning: 'bg-yellow-500 text-white'
+  error: 'bg-red-700 text-white',
+  success: 'bg-green-700 text-white',
+  info: 'bg-blue-700 text-white',
+  warning: 'bg-yellow-700 text-white'
 };
 
 type ToastNotificationProps = {

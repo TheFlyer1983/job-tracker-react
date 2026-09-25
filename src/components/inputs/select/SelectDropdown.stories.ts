@@ -24,6 +24,8 @@ type Story = StoryObj<typeof SelectDropdown>;
 
 export const Default: Story = {
   args: {
+    id: 'status',
+    label: 'Status',
     options: [...jobStatuses],
     setValue: (status: string) => console.log('Value Set', status)
   }

@@ -1,3 +1,5 @@
+/// <reference types="vite/client" />
+
 import type { Preview } from '@storybook/react-vite';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { mswLoader } from 'msw-storybook-addon/csf3';
@@ -21,8 +23,18 @@ const preview: Preview = {
     )
   ],
   loaders: [mswLoader()],
-
+  initialGlobals: {
+    backgrounds: { value: 'app' }
+  },
   parameters: {
+    backgrounds: {
+      options: {
+        app: {
+          name: 'App',
+          value: '#16171D'
+        }
+      }
+    },
     msw: {
       handlers
     },
