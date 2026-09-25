@@ -3,6 +3,7 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import AddJob from './AddJobModal';
 import { MemoryRouter } from 'react-router';
 import { userEvent } from '@testing-library/user-event';
+import { axe } from 'vitest-axe';
 
 const { mockAddJob } = vi.hoisted(() => ({
   mockAddJob: vi.fn()
@@ -154,6 +155,14 @@ describe('AddJobModal', () => {
       await user.click(screen.getByRole('dialog'));
 
       expect(mockCloseModal).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('accessibility', () => {
+    it('should pass accessibility tests', async () => {
+      const { container } = renderAddJobModal();
+      const results = await axe(container);
+      expect(results).toHaveNoViolations();
     });
   });
 });

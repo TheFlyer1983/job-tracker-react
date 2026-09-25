@@ -4,6 +4,7 @@ import JobCard from './JobCard';
 import type { Job } from '../../db/schema';
 import { MemoryRouter, useLocation } from 'react-router';
 import { userEvent } from '@testing-library/user-event';
+import { axe } from 'vitest-axe';
 
 const mockDeleteJob = vi.fn();
 const mockOpenModal = vi.fn();
@@ -149,6 +150,14 @@ describe('JobCard', () => {
 
     it('does not render the job card url', () => {
       expect(screen.queryByRole('link', { name: jobUrl! })).not.toBeInTheDocument();
+    });
+  });
+
+  describe('accessibility', () => {
+    it('should pass accessibility tests', async () => {
+      const { container } = renderJobCard(job);
+      const results = await axe(container);
+      expect(results).toHaveNoViolations();
     });
   });
 });

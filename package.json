@@ -68,7 +68,8 @@
     "tsx": "^4.23.13",
     "typescript": "~6.0.2",
     "vite": "^8.2.0",
-    "vitest": "latest"
+    "vitest": "latest",
+    "vitest-axe": "^0.1.0"
   },
   "msw": {
     "workerDirectory": [

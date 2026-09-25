@@ -1,8 +1,9 @@
 import { render, screen } from '@testing-library/react';
-import { beforeEach, describe, expect, it, vi, afterEach } from 'vitest';
+import { describe, expect, it, vi, afterEach } from 'vitest';
 import ToastNotification from './ToastNotification';
 import { MemoryRouter } from 'react-router';
 import { userEvent } from '@testing-library/user-event';
+import { axe } from 'vitest-axe';
 
 const { mockRemoveNotification } = vi.hoisted(() => ({
   mockRemoveNotification: vi.fn()
@@ -79,5 +80,13 @@ describe('ToastNotification', () => {
     await userEvent.click(closeButton);
 
     expect(mockRemoveNotification).toHaveBeenCalledWith('1');
+  });
+
+  describe('accessibility', () => {
+    it('should pass accessibility tests', async () => {
+      const { container } = renderToastNotification();
+      const results = await axe(container);
+      expect(results).toHaveNoViolations();
+    });
   });
 });
