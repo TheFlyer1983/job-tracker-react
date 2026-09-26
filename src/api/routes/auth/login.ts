@@ -5,7 +5,7 @@ import { usersTable, sessionsTable } from '../../../db/schema';
 import { eq } from 'drizzle-orm';
 import { verifyPassword } from '../../../auth/password';
 import { setCookie } from 'hono/cookie';
-import { createSessionId } from './session';
+import { createSessionId } from '../../../auth/session';
 
 const loginRoute = new Hono().post('/login', async (c) => {
   const body = await c.req.json();
@@ -50,7 +50,7 @@ const loginRoute = new Hono().post('/login', async (c) => {
     maxAge: 60 * 60 * 24 * 7
   });
 
-  return c.json({id: user.id, email: user.email}, 200);
+  return c.json({ id: user.id, email: user.email }, 200);
 });
 
 export default loginRoute;

@@ -3,10 +3,9 @@ import { db } from '../../../db';
 import { usersTable, sessionsTable } from '../../../db/schema';
 import { eq } from 'drizzle-orm';
 import { hashPassword } from '../../../auth/password';
-import { createSessionId } from './session';
+import { createSessionId } from '../../../auth/session';
 import { setCookie } from 'hono/cookie';
 import { credentialsSchema } from './schemas';
-
 
 const registerRoute = new Hono().post('/register', async (c) => {
   const body = await c.req.json();
@@ -59,8 +58,8 @@ const registerRoute = new Hono().post('/register', async (c) => {
     secure: true,
     sameSite: 'Lax',
     path: '/',
-    maxAge: 60 * 60 * 24 * 7,
-  })
+    maxAge: 60 * 60 * 24 * 7
+  });
 
   return c.json(user, 201);
 });

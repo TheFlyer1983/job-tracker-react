@@ -5,7 +5,6 @@ import { sessionsTable } from '../../../db/schema';
 import { eq } from 'drizzle-orm';
 
 const logoutRoute = new Hono().post('/logout', async (c) => {
-  console.log('Logging out');
   const sessionId = getCookie(c, 'sessionId');
 
   if (sessionId) {
