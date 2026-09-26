@@ -13,7 +13,7 @@ const registerRoute = new Hono().post('/register', async (c) => {
   const result = credentialsSchema.safeParse(body);
 
   if (!result.success) {
-    return c.json({ error: 'Invalid registraion details' }, 400);
+    return c.json({ error: 'Invalid registration details' }, 400);
   }
 
   const email = result.data.email.toLowerCase();
