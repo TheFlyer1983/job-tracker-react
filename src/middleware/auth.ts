@@ -9,15 +9,14 @@ type AuthEnv = {
     user: {
       id: string;
       email: string;
-    }
-  }
-}
+    };
+  };
+};
 
 export const authMiddleware = createMiddleware<AuthEnv>(async (c, next) => {
   const sessionId = getCookie(c, 'sessionId');
 
   if (!sessionId) {
-    console.log('Logged out - no session id');
     return c.json({ error: 'Unauthorized' }, 401);
   }
 
@@ -28,11 +27,8 @@ export const authMiddleware = createMiddleware<AuthEnv>(async (c, next) => {
     .limit(1);
 
   if (!session) {
-    console.log('Logged out - session');
     return c.json({ error: 'Unauthorized' }, 401);
   }
-
-  console.log('logged in');
 
   if (session.expiresAt < new Date()) {
     return c.json({ error: 'Session expired' }, 401);
