@@ -1,7 +1,7 @@
 import { useParams, NavLink, useNavigate } from 'react-router';
 import { useEffect } from 'react';
 import AppHeader from '../components/AppHeader';
-import { getJob } from '../api/jobs';
+import { getJob } from '../api/client/jobs';
 import { useNotifications } from '../hooks/useNotifications';
 import { useQuery } from '@tanstack/react-query';
 import { Button } from '../components/inputs/button/Button';

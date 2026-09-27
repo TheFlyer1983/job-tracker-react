@@ -6,7 +6,7 @@ import {
   addJob as addJobApi,
   deleteJob as deleteJobApi,
   updateJob as updateJobApi
-} from '../api/jobs';
+} from '../api/client/jobs';
 import { useNotifications } from '../hooks/useNotifications';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import type { DeleteJobOptions } from '../contexts/JobContext';
