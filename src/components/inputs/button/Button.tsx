@@ -9,6 +9,7 @@ type CommonProps = {
 type ButtonProps =
   | (CommonProps & {
       type?: 'button' | 'submit';
+      disabled?: boolean;
       onClick?: () => void;
     })
   | (CommonProps & {
@@ -41,7 +42,13 @@ export function Button(props: ButtonProps) {
 
   if (props.type === 'link') {
     return (
-      <NavLink className={[className, 'focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 no-underline'].join(' ')} to={props.to}>
+      <NavLink
+        className={[
+          className,
+          'focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 no-underline'
+        ].join(' ')}
+        to={props.to}
+      >
         {props.label}
       </NavLink>
     );
@@ -55,6 +62,7 @@ export function Button(props: ButtonProps) {
       ].join(' ')}
       onClick={props.onClick}
       type={props.type ?? 'button'}
+      disabled={props.disabled}
     >
       {props.label}
     </button>

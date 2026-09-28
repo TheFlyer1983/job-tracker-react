@@ -18,7 +18,7 @@ export function JobProvider({ children }: { children: React.ReactNode }) {
   const {
     data: jobs = [],
     isLoading,
-    isError
+    error
   } = useQuery({
     queryKey: ['jobs'],
     queryFn: getJobs,
@@ -26,18 +26,22 @@ export function JobProvider({ children }: { children: React.ReactNode }) {
   });
 
   useEffect(() => {
-    if (isError) {
+    if (error) {
       addNotification({
         type: 'error',
-        message: 'Failed to load jobs'
+        message: error.message
       });
     }
-  }, [isError, addNotification]);
+  }, [error, addNotification]);
 
   const addJobMutation = useMutation({
     mutationFn: addJobApi,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['jobs'] });
+      addNotification({
+        type: 'success',
+        message: 'Job added successfully'
+      });
     },
     onError: (error) => {
       console.log(error);
@@ -53,6 +57,10 @@ export function JobProvider({ children }: { children: React.ReactNode }) {
     mutationFn: updateJobApi,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['jobs'] });
+      addNotification({
+        type: 'success',
+        message: 'Job updated successfully'
+      });
     },
     onError: (error) => {
       console.log(error);
@@ -66,10 +74,13 @@ export function JobProvider({ children }: { children: React.ReactNode }) {
 
   const deleteJobMutation = useMutation({
     mutationFn: deleteJobApi,
-    onSuccess: (_, id) => {
+    onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['jobs'], exact: true });
 
-      console.log('DELETE SUCCESS', id);
+      addNotification({
+        type: 'success',
+        message: 'Job deleted successfully'
+      });
     },
     onError: (error) => {
       console.log(error);

@@ -18,7 +18,8 @@ export async function getJob(id: Job['id']) {
   const response = await client.api.jobs[':id'].$get({ param: { id } });
 
   if (!response.ok) {
-    throw new Error('Failed to fetch job');
+    const error = await response.json();
+    throw new Error(error.error);
   }
 
   return response.json();
