@@ -6,8 +6,9 @@ import { eq } from 'drizzle-orm';
 import { verifyPassword } from '../../../auth/password';
 import { setCookie } from 'hono/cookie';
 import { createSessionId } from '../../../auth/session';
+import { zValidator } from '@hono/zod-validator';
 
-const loginRoute = new Hono().post('/login', async (c) => {
+const loginRoute = new Hono().post('/login', zValidator('json', credentialsSchema), async (c) => {
   const body = await c.req.json();
 
   const result = credentialsSchema.safeParse(body);

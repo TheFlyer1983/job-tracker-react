@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { JobContext } from '../contexts/JobContext';
-import type { Job, NewJob } from '../db/schema';
+import type { Job } from '../db/schema';
 import {
   getJobs,
   addJob as addJobApi,
@@ -10,6 +10,7 @@ import {
 import { useNotifications } from '../hooks/useNotifications';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import type { DeleteJobOptions } from '../contexts/JobContext';
+import type { CreateJobInput } from '../validation/jobs';
 
 export function JobProvider({ children }: { children: React.ReactNode }) {
   const { addNotification } = useNotifications();
@@ -92,7 +93,7 @@ export function JobProvider({ children }: { children: React.ReactNode }) {
     }
   });
 
-  function addJob(newJob: NewJob) {
+  function addJob(newJob: CreateJobInput) {
     addJobMutation.mutate(newJob);
   }
 

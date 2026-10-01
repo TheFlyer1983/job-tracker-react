@@ -4,6 +4,7 @@ import { mockJobs } from '../../mocks/data';
 import { server } from '../../mocks/server';
 import { http, HttpResponse } from 'msw';
 import type { NewJob, Job } from '../../db/schema';
+import type { CreateJobInput } from '../../validation/jobs';
 
 describe('getJobs', () => {
   it('should return a list of jobs', async () => {
@@ -41,7 +42,7 @@ describe('getJob', () => {
 });
 
 describe('addJob', () => {
-  const newJob: NewJob = {
+  const newJob: CreateJobInput = {
     company: 'Company 2',
     title: 'Job 2',
     location: 'Location 2',
@@ -69,6 +70,7 @@ describe('addJob', () => {
 describe('updateJob', () => {
   const updatedJob: Job = {
     id: '1',
+    userId: '1',
     company: 'Company 2',
     title: 'Job 2',
     location: 'Location 2',

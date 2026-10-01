@@ -10,6 +10,7 @@ export function useLogout() {
     mutationFn: logout,
     onSuccess: () => {
       queryClient.removeQueries({ queryKey: ['me'] });
+      queryClient.removeQueries({ queryKey: ['jobs'] });
     },
     onError: (error) => {
       addNotification({

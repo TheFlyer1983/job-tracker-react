@@ -20,7 +20,7 @@ export default function Login() {
   const { login, isLoggingIn, isLoginError } = useAuth();
   const navigate = useNavigate();
 
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  function handleSubmit(e: React.SubmitEvent<HTMLFormElement>) {
     e.preventDefault();
 
     login(credentials, {

@@ -25,7 +25,6 @@ export default function Register() {
   const navigate = useNavigate();
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    console.log(credentials);
 
     register(credentials, {
       onSuccess: () => {

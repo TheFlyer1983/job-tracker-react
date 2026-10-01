@@ -1,10 +1,15 @@
 import { Hono } from 'hono';
 import jobsRoutes from './routes/jobs';
 import authRoutes from './routes/auth';
+import { secureHeaders } from 'hono/secure-headers';
 
 const app = new Hono();
-
-app.use('*', async (c, next) => {
+app.use('*', secureHeaders({
+  contentSecurityPolicy: {
+    defaultSrc: ["'self'"],
+    frameAncestors: ["'self'"],
+  }
+})).use('*', async (c, next) => {
   console.log('Request received:', c.req.method, c.req.url);
   await next();
 });

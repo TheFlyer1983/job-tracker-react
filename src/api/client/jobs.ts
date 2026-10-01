@@ -1,4 +1,5 @@
-import type { Job, NewJob } from '../../db/schema';
+import type { Job } from '../../db/schema';
+import type { CreateJobInput, UpdateJobInput } from '../../validation/jobs';
 import { hc } from 'hono/client';
 import type { AppType } from '../app';
 
@@ -19,13 +20,13 @@ export async function getJob(id: Job['id']) {
 
   if (!response.ok) {
     const error = await response.json();
-    throw new Error(error.error);
+    throw new Error(error?.error ?? 'Failed to fetch job');
   }
 
   return response.json();
 }
 
-export async function addJob(job: NewJob) {
+export async function addJob(job: CreateJobInput) {
   const response = await client.api.jobs.$post({ json: job });
 
   if (!response.ok) {
