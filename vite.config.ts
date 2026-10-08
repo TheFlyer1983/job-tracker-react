@@ -15,6 +15,12 @@ export default defineConfig(({ mode }) => {
 
   return {
     plugins: [react(), tailwindcss()],
+    resolve: {
+      alias: {
+        '@@': dirname,
+        '@': path.join(dirname, '/src')
+      }
+    },
     server: {
       proxy: {
         '/api': {
@@ -50,20 +56,22 @@ export default defineConfig(({ mode }) => {
                 {
                   browser: 'chromium'
                 }
-              ],
+              ]
             }
           }
         },
         {
+          extends: true,
           test: {
             name: 'unit',
             environment: 'jsdom',
             setupFiles: './src/test/setup.ts',
             include: ['src/**/*.{test,spec}.{ts,tsx}'],
-            exclude: ['src/api/__tests__/*.test.ts', '**/node_modules/**']
+            exclude: ['src/api/__tests__/**/*.test.ts', '**/node_modules/**']
           }
         },
         {
+          extends: true,
           test: {
             name: 'api',
             environment: 'node',

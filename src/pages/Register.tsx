@@ -85,7 +85,7 @@ export default function Register() {
                   onClick={() => setShowPassword((show) => !show)}
                   className={`${linkClasses} cursor-pointer text-sm`}
                 >
-                  {showPassword ? 'Hide' : 'Show'} passwords
+                  {showPassword ? 'Hide' : 'Show'} password
                 </button>
               </div>
               <input
