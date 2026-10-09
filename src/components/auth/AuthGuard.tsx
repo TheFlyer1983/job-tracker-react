@@ -1,14 +1,14 @@
-import { useMe } from '../../hooks/useMe';
+import { useAuth } from '../../hooks/useAuth';
 import { Navigate } from 'react-router';
 
 export function AuthGuard({ children }: { children: React.ReactNode }) {
-  const { data, isPending, isError } = useMe();
+  const { isLoading, isAuthenticated } = useAuth();
 
-  if (isPending) {
+  if (isLoading) {
     return <div>Loading...</div>;
   }
 
-  if (isError) {
+  if (!isAuthenticated) {
     return <Navigate to="/login" replace />;
   }
 
