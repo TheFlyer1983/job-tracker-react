@@ -34,7 +34,7 @@ export default defineConfig(({ mode }) => {
         provider: 'v8',
         reporter: ['text', 'json', 'html'],
         include: ['src/**/*.{ts,tsx}'],
-        exclude: ['**/node_modules/**']
+        exclude: ['**/node_modules/**', 'src/test/*']
       },
       projects: [
         {

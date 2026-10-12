@@ -2,7 +2,6 @@ import { renderHook } from '@testing-library/react';
 import { describe, expect, it, vi, beforeEach } from 'vitest';
 
 import { useAuth } from './useAuth';
-import { mockLogin } from '../test/auth';
 
 const { mockUseMe, mockUseLogout, mockUseLogin, mockUseRegister } = vi.hoisted(() => ({
   mockUseMe: vi.fn(),
