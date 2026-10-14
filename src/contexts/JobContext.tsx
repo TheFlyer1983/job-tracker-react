@@ -1,5 +1,6 @@
 import { createContext } from 'react';
-import type { Job, NewJob } from '../db/schema';
+import type { Job } from '../db/schema';
+import type { CreateJobInput } from '../validation/jobs';
 
 export type DeleteJobOptions = {
   onSuccess?: () => void;
@@ -7,7 +8,7 @@ export type DeleteJobOptions = {
 
 type JobContextType = {
   jobs: Job[];
-  addJob: (job: NewJob) => void;
+  addJob: (job: CreateJobInput) => void;
   updateJob: (job: Job) => void;
   deleteJob: (id: Job['id'], options?: DeleteJobOptions) => void;
   isLoading: boolean;

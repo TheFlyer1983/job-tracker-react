@@ -6,9 +6,12 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import type { Job } from '../db/schema';
 import { userEvent } from '@testing-library/user-event';
 
+const mockUserId = 'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa';
+
 const mockJobs: Job[] = [
   {
     id: '11111111-1111-1111-1111-111111111111',
+    userId: mockUserId,
     company: 'Company 1',
     title: 'Frontend Developer',
     location: 'Manchester',
@@ -19,6 +22,7 @@ const mockJobs: Job[] = [
   },
   {
     id: '22222222-2222-2222-2222-222222222222',
+    userId: mockUserId,
     company: 'Company 2',
     title: 'Senior Frontend Developer',
     location: 'London',
@@ -46,7 +50,7 @@ const { getJobsMock, addJobMock, updateJobMock, deleteJobMock } = vi.hoisted(() 
   deleteJobMock: vi.fn()
 }));
 
-vi.mock('../api/jobs', () => ({
+vi.mock('../api/client/jobs', () => ({
   getJobs: getJobsMock,
   addJob: addJobMock,
   updateJob: updateJobMock,
@@ -92,6 +96,7 @@ function TestConsumer({ onDeleteSuccess }: { onDeleteSuccess?: () => void }) {
         onClick={() =>
           updateJob({
             id: '11111111-1111-1111-1111-111111111111',
+            userId: mockUserId,
             company: 'Company 1',
             title: 'Frontend Developer',
             location: 'Manchester',
@@ -228,6 +233,7 @@ describe('JobProvider', () => {
     expect(updateJobMock).toHaveBeenCalledWith(
       {
         id: '11111111-1111-1111-1111-111111111111',
+        userId: mockUserId,
         company: 'Company 1',
         title: 'Frontend Developer',
         location: 'Manchester',
@@ -451,6 +457,7 @@ describe('JobProvider', () => {
       ...mockJobs,
       {
         id: '33333333-3333-3333-3333-333333333333',
+        userId: mockUserId,
         company: 'Company 3',
         title: 'Backend Developer',
         location: 'Manchester',
@@ -509,7 +516,7 @@ describe('JobProvider', () => {
   });
 
   it(`while the query is stale, remounting the component refetches the jobs query`, async () => {
-    const queryClient = createQueryClient(0);
+    const queryClient = createQueryClient();
     getJobsMock.mockResolvedValueOnce(mockJobs).mockResolvedValueOnce(mockJobs);
 
     const { unmount } = render(
@@ -522,10 +529,12 @@ describe('JobProvider', () => {
 
     expect(await screen.findByText('2 jobs')).toBeInTheDocument();
 
-    vi.useFakeTimers();
-    vi.advanceTimersByTime(30_000);
-
     unmount();
+
+    await queryClient.invalidateQueries({
+      queryKey: ['jobs'],
+      refetchType: 'none'
+    })
 
     render(
       <QueryClientProvider client={queryClient}>
@@ -535,8 +544,7 @@ describe('JobProvider', () => {
       </QueryClientProvider>
     );
 
+    expect(await screen.findByText('2 jobs')).toBeInTheDocument();
     expect(getJobsMock).toHaveBeenCalledTimes(2);
-
-    vi.useRealTimers();
   });
 });

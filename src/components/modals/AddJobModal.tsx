@@ -1,4 +1,4 @@
-import type { NewJob } from '../../db/schema';
+import type { CreateJobInput } from '../../validation/jobs';
 import { useState, useRef, useEffect } from 'react';
 import SelectDropdown from '../inputs/select/SelectDropdown';
 import { jobStatuses } from '../../constants/jobs';
@@ -16,7 +16,7 @@ export default function AddJobModal() {
   const { addJob } = useJobs();
   const { closeModal } = useModal();
 
-  const [job, setJob] = useState<NewJob>({
+  const [job, setJob] = useState<CreateJobInput>({
     company: '',
     title: '',
     location: '',

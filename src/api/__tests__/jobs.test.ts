@@ -1,8 +1,10 @@
 import { app } from '../app';
 import { describe, it, expect, beforeEach } from 'vitest';
 import { db } from '../../db';
-import { jobsTable, type NewJob } from '../../db/schema';
+import { jobsTable } from '../../db/schema';
 import { eq } from 'drizzle-orm';
+import type { CreateJobInput } from '../../validation/jobs';
+import { createAuthenticatedUser } from './helpers/auth';
 
 describe('GET /api/jobs', () => {
   beforeEach(async () => {
@@ -10,14 +12,22 @@ describe('GET /api/jobs', () => {
   });
 
   it('should return an empty array when there are no jobs', async () => {
-    const response = await app.request('/api/jobs');
+    const { sessionId } = await createAuthenticatedUser();
+
+    const response = await app.request('/api/jobs', {
+      headers: {
+        Cookie: `sessionId=${sessionId}`
+      }
+    });
 
     expect(response.status).toBe(200);
     expect(await response.json()).toEqual([]);
   });
 
   it('should return a list of jobs when there are jobs', async () => {
-    const newJob: NewJob = {
+    const { user: mockUser, sessionId } = await createAuthenticatedUser();
+
+    const newJob: CreateJobInput = {
       company: 'Company 1',
       title: 'Job 1',
       status: 'Saved',
@@ -25,9 +35,16 @@ describe('GET /api/jobs', () => {
       notes: 'Notes 1'
     };
 
-    const [createdJob] = await db.insert(jobsTable).values(newJob).returning();
+    const [createdJob] = await db
+      .insert(jobsTable)
+      .values({ ...newJob, userId: mockUser.id })
+      .returning();
 
-    const response = await app.request('/api/jobs');
+    const response = await app.request('/api/jobs', {
+      headers: {
+        Cookie: `sessionId=${sessionId}`
+      }
+    });
     expect(response.status).toBe(200);
     expect(await response.json()).toEqual([createdJob]);
   });
@@ -39,7 +56,9 @@ describe('GET /api/jobs/:id', () => {
   });
 
   it('should return a job when the job exists', async () => {
-    const newJob: NewJob = {
+    const { user: mockUser, sessionId } = await createAuthenticatedUser();
+
+    const newJob: CreateJobInput = {
       company: 'Company 1',
       title: 'Job 1',
       status: 'Saved',
@@ -47,15 +66,28 @@ describe('GET /api/jobs/:id', () => {
       notes: 'Notes 1'
     };
 
-    const [createdJob] = await db.insert(jobsTable).values(newJob).returning();
+    const [createdJob] = await db
+      .insert(jobsTable)
+      .values({ ...newJob, userId: mockUser.id })
+      .returning();
 
-    const response = await app.request(`/api/jobs/${createdJob.id}`);
+    const response = await app.request(`/api/jobs/${createdJob.id}`, {
+      headers: {
+        Cookie: `sessionId=${sessionId}`
+      }
+    });
     expect(response.status).toBe(200);
     expect(await response.json()).toEqual(createdJob);
   });
 
   it('should return a 404 when the job does not exist', async () => {
-    const response = await app.request(`/api/jobs/${crypto.randomUUID()}`);
+    const { sessionId } = await createAuthenticatedUser();
+
+    const response = await app.request(`/api/jobs/${crypto.randomUUID()}`, {
+      headers: {
+        Cookie: `sessionId=${sessionId}`
+      }
+    });
     expect(response.status).toBe(404);
     expect(await response.json()).toEqual({ error: 'Job not found' });
   });
@@ -67,7 +99,9 @@ describe('POST /api/jobs', () => {
   });
 
   it('should create a new job', async () => {
-    const newJob: NewJob = {
+    const { sessionId } = await createAuthenticatedUser();
+
+    const newJob: CreateJobInput = {
       company: 'Company 1',
       title: 'Job 1',
       status: 'Saved',
@@ -78,7 +112,8 @@ describe('POST /api/jobs', () => {
     const response = await app.request('/api/jobs', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        Cookie: `sessionId=${sessionId}`
       },
       body: JSON.stringify(newJob)
     });
@@ -96,10 +131,13 @@ describe('POST /api/jobs', () => {
   });
 
   it('should return a 400 when the request is invalid', async () => {
+    const { sessionId } = await createAuthenticatedUser();
+
     const response = await app.request('/api/jobs', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        Cookie: `sessionId=${sessionId}`
       },
       body: JSON.stringify({})
     });
@@ -113,7 +151,8 @@ describe('PUT /api/jobs/:id', () => {
   });
 
   it('should update a job', async () => {
-    const newJob: NewJob = {
+    const { user: mockUser, sessionId } = await createAuthenticatedUser();
+    const newJob: CreateJobInput = {
       company: 'Company 1',
       title: 'Job 1',
       status: 'Saved',
@@ -121,12 +160,16 @@ describe('PUT /api/jobs/:id', () => {
       notes: 'Notes 1'
     };
 
-    const [createdJob] = await db.insert(jobsTable).values(newJob).returning();
+    const [createdJob] = await db
+      .insert(jobsTable)
+      .values({ ...newJob, userId: mockUser.id })
+      .returning();
 
     const response = await app.request(`/api/jobs/${createdJob.id}`, {
       method: 'PUT',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        Cookie: `sessionId=${sessionId}`
       },
       body: JSON.stringify({
         company: 'Company 1',
@@ -155,10 +198,13 @@ describe('PUT /api/jobs/:id', () => {
   });
 
   it('should return a 400 when the request is invalid', async () => {
+    const { sessionId } = await createAuthenticatedUser();
+
     const response = await app.request(`/api/jobs/${crypto.randomUUID()}`, {
       method: 'PUT',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        Cookie: `sessionId=${sessionId}`
       },
       body: JSON.stringify({})
     });
@@ -166,10 +212,13 @@ describe('PUT /api/jobs/:id', () => {
   });
 
   it('should return a 404 when the job does not exist', async () => {
+    const { sessionId } = await createAuthenticatedUser();
+
     const response = await app.request(`/api/jobs/${crypto.randomUUID()}`, {
       method: 'PUT',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        Cookie: `sessionId=${sessionId}`
       },
       body: JSON.stringify({
         company: 'Company 1',
@@ -190,7 +239,9 @@ describe('DELETE /api/jobs/:id', () => {
   });
 
   it('should delete a job', async () => {
-    const newJob: NewJob = {
+    const { user: mockUser, sessionId } = await createAuthenticatedUser();
+
+    const newJob: CreateJobInput = {
       company: 'Company 1',
       title: 'Job 1',
       status: 'Saved',
@@ -198,16 +249,27 @@ describe('DELETE /api/jobs/:id', () => {
       notes: 'Notes 1'
     };
 
-    const [createdJob] = await db.insert(jobsTable).values(newJob).returning();
+    const [createdJob] = await db
+      .insert(jobsTable)
+      .values({ ...newJob, userId: mockUser.id })
+      .returning();
 
     const response = await app.request(`/api/jobs/${createdJob.id}`, {
-      method: 'DELETE'
+      method: 'DELETE',
+      headers: {
+        Cookie: `sessionId=${sessionId}`
+      }
     });
     expect(response.status).toBe(204);
   });
 
   it('should return a 404 when the job does not exist', async () => {
+    const { sessionId } = await createAuthenticatedUser();
+
     const response = await app.request(`/api/jobs/${crypto.randomUUID()}`, {
+      headers: {
+        Cookie: `sessionId=${sessionId}`
+      },
       method: 'DELETE'
     });
     expect(response.status).toBe(404);

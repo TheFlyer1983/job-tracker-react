@@ -1,9 +1,10 @@
 import { getJobs, getJob, addJob, updateJob, deleteJob } from './jobs';
 import { describe, it, expect } from 'vitest';
-import { mockJobs } from '../mocks/data';
-import { server } from '../mocks/server';
+import { mockJobs } from '../../mocks/data';
+import { server } from '../../mocks/server';
 import { http, HttpResponse } from 'msw';
-import type { NewJob, Job } from '../db/schema';
+import type { NewJob, Job } from '../../db/schema';
+import type { CreateJobInput } from '../../validation/jobs';
 
 describe('getJobs', () => {
   it('should return a list of jobs', async () => {
@@ -41,7 +42,7 @@ describe('getJob', () => {
 });
 
 describe('addJob', () => {
-  const newJob: NewJob = {
+  const newJob: CreateJobInput = {
     company: 'Company 2',
     title: 'Job 2',
     location: 'Location 2',
@@ -69,6 +70,7 @@ describe('addJob', () => {
 describe('updateJob', () => {
   const updatedJob: Job = {
     id: '1',
+    userId: '1',
     company: 'Company 2',
     title: 'Job 2',
     location: 'Location 2',
@@ -99,9 +101,11 @@ describe('deleteJob', () => {
   });
 
   it('should throw an error if the request fails', async () => {
-    server.use(http.delete('/api/jobs/:id', () => {
-      return HttpResponse.json(null, { status: 500 });
-    }));
+    server.use(
+      http.delete('/api/jobs/:id', () => {
+        return HttpResponse.json(null, { status: 500 });
+      })
+    );
 
     await expect(deleteJob('1')).rejects.toThrow('Failed to delete job');
   });
