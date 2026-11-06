@@ -1,0 +1,44 @@
+name: Release
+on:
+  release:
+    types: [published]
+
+concurrency:
+  group: production
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    environment: production
+    env:
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+      - name: Use Node.js 26.x
+        uses: actions/setup-node@v6
+        with:
+          node-version: 26.x
+          cache: pnpm
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      - name: Stage production deployment
+        id: stage
+        run: |
+          url=$(pnpx vercel@latest deploy --prod --skip-domain)
+          echo "url=$url" >> "$GITHUB_OUTPUT"
+      - name: Run Migrations
+        run: pnpm db:migrate
+        env:
+          DIRECT_URL: ${{ secrets.DIRECT_URL }}
+      - name: Promote to Production
+        run: pnpx vercel@latest promote "${{ steps.stage.outputs.url }}"
