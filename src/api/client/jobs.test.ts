@@ -3,7 +3,7 @@ import { describe, it, expect } from 'vitest';
 import { mockJobs } from '../../mocks/data';
 import { server } from '../../mocks/server';
 import { http, HttpResponse } from 'msw';
-import type { NewJob, Job } from '../../db/schema';
+import type { Job } from '../../db/schema';
 import type { CreateJobInput } from '../../validation/jobs';
 
 describe('getJobs', () => {

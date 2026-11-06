@@ -23,15 +23,19 @@ export async function getMe() {
 }
 
 export async function login({ email, password }: Credentials) {
-  const response = await client.api.auth.login.$post({
-    json: {
-      email,
-      password
+  const response = await client.api.auth.login.$post(
+    {
+      json: {
+        email,
+        password
+      }
     },
-    init: {
-      credentials: 'include'
+    {
+      init: {
+        credentials: 'include'
+      }
     }
-  });
+  );
 
   if (!response.ok) {
     const error = await response.json();

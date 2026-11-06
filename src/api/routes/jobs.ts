@@ -3,7 +3,7 @@ import { db } from '../../db';
 import { jobsTable } from '../../db/schema';
 import { eq, and } from 'drizzle-orm';
 import { createJobSchema, updateJobSchema, jobIdSchema } from '../../validation/jobs';
-import { zValidator } from '@hono/zod-validator';
+import { zValidator } from '../validator';
 import { authMiddleware } from '../../middleware/auth';
 
 const jobsRoutes = new Hono()

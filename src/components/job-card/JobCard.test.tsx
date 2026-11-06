@@ -29,6 +29,7 @@ const LocationDisplay = () => {
 
 const job: Job = {
   id: '1',
+  userId: '11111111-1111-1111-1111-111111111111',
   company: 'Company',
   title: 'Title',
   location: 'Location',

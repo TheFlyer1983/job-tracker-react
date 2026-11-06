@@ -6,19 +6,13 @@ import { eq } from 'drizzle-orm';
 import { verifyPassword } from '../../../auth/password';
 import { setCookie } from 'hono/cookie';
 import { createSessionId } from '../../../auth/session';
-import { zValidator } from '@hono/zod-validator';
+import { zValidator } from '../../validator';
 
-const loginRoute = new Hono().post('/login', zValidator('json', credentialsSchema), async (c) => {
-  const body = await c.req.json();
+const loginRoute = new Hono().post('/login', zValidator('json', credentialsSchema, 'Invalid login details'), async (c) => {
+  const result = c.req.valid('json');
 
-  const result = credentialsSchema.safeParse(body);
-
-  if (!result.success) {
-    return c.json({ error: 'Invalid login details' }, 400);
-  }
-
-  const email = result.data.email.toLowerCase();
-  const { password } = result.data;
+  const email = result.email.toLowerCase();
+  const password = result.password;
 
   const [user] = await db.select().from(usersTable).where(eq(usersTable.email, email)).limit(1);
 

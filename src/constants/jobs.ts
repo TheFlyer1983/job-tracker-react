@@ -7,6 +7,7 @@ export type JobStatus = (typeof jobStatuses)[number];
 
 export const initialJobs: NewJob[] = [
   {
+    userId: '11111111-1111-1111-1111-111111111111',
     company: 'Sanderson (Agency)',
     title: 'Senior Software Engineer',
     location: 'Remote',
@@ -16,6 +17,7 @@ export const initialJobs: NewJob[] = [
     notes: 'React / TypeScript'
   },
   {
+    userId: '11111111-1111-1111-1111-111111111111',
     company: 'Springer Natuure Group',
     title: 'Senior Frontend Engineer',
     location: 'London',
@@ -25,6 +27,7 @@ export const initialJobs: NewJob[] = [
     notes: 'Frontend'
   },
   {
+    userId: '11111111-1111-1111-1111-111111111111',
     company: 'Pendo.io',
     title: 'Sr. Software Engineer',
     location: 'Sheffield',
@@ -34,6 +37,7 @@ export const initialJobs: NewJob[] = [
     notes: 'Vue.js / TypeScript'
   },
   {
+    userId: '11111111-1111-1111-1111-111111111111',
     company: 'Doccla',
     title: 'Senior Software Engineer',
     location: 'London (Remote)',
@@ -43,6 +47,7 @@ export const initialJobs: NewJob[] = [
     notes: 'React'
   },
   {
+    userId: '11111111-1111-1111-1111-111111111111',
     company: 'Foundation Health',
     title: 'Senior Software Engineer',
     location: 'Manchester',
@@ -52,6 +57,7 @@ export const initialJobs: NewJob[] = [
     notes: 'AI Focused.'
   },
   {
+    userId: '11111111-1111-1111-1111-111111111111',
     company: 'TradingView',
     title: 'Frontend Developer',
     location: 'Remote - UK',
@@ -61,6 +67,7 @@ export const initialJobs: NewJob[] = [
     notes: 'Large-scale frontend application. Worth researching further.'
   },
   {
+    userId: '11111111-1111-1111-1111-111111111111',
     company: 'n8n',
     title: 'Frontend Engineer',
     location: 'Remote',
@@ -70,6 +77,7 @@ export const initialJobs: NewJob[] = [
     notes: 'Great fit with TypeScript and frontend experience.'
   },
   {
+    userId: '11111111-1111-1111-1111-111111111111',
     company: 'GitLab',
     title: 'Senior Frontend Engineer',
     location: 'Remote',
@@ -80,6 +88,7 @@ export const initialJobs: NewJob[] = [
       'GitLab is a software development platform that provides a comprehensive suite of tools for software development, project management, and collaboration.'
   },
   {
+    userId: '11111111-1111-1111-1111-111111111111',
     company: 'First Up',
     title: 'Sr. Software Engineer, Frontend',
     location: 'UK - Remote',
