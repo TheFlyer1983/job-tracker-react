@@ -1,5 +1,5 @@
 import type { Job } from '../../db/schema';
-import type { CreateJobInput, UpdateJobInput } from '../../validation/jobs';
+import type { CreateJobInput } from '../../validation/jobs';
 import { hc } from 'hono/client';
 import type { AppType } from '../app';
 

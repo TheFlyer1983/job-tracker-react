@@ -1,0 +1,6 @@
+learning/
+coverage/
+dist/
+
+.env
+.env.test

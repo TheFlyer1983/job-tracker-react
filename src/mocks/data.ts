@@ -3,6 +3,7 @@ import type { Job } from '../db/schema';
 export const mockJobs: Job[] = [
   {
     id: '1',
+    userId: '11111111-1111-1111-1111-111111111111',
     company: 'Company 1',
     title: 'Job 1',
     location: 'Location 1',

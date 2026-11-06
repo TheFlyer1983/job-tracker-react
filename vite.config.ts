@@ -75,7 +75,7 @@ export default defineConfig(({ mode }) => {
           test: {
             name: 'api',
             environment: 'node',
-            include: ['src/api/__tests__/*.test.ts'],
+            include: ['src/api/__tests__/**/*.test.ts'],
             setupFiles: './src/test/api.setup.ts'
           }
         }
